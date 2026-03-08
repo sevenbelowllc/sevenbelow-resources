@@ -79,7 +79,7 @@ graph TB
     end
 
     subgraph "🎯 Planning Layer"
-        ORCH[[ORCHESTRATOR-REPO]<br/>ORCHESTRATION ONLY]
+        ORCH[orchestrator<br/>ORCHESTRATION ONLY]
     end
 
     subgraph "⚡ Execution Layer"
@@ -88,8 +88,8 @@ graph TB
     end
 
     subgraph "🏗️ Infrastructure Layer"
-        TFMETA[[TERRAFORM-META]<br/>Shared Config]
-        TFROOT[[TERRAFORM-ROOT]<br/>Root Modules]
+        TFMETA[terraform-metadata<br/>Shared Config]
+        TFROOT[terraform-modules<br/>Root Modules]
     end
 
     subgraph "🌐 Global Resources"
