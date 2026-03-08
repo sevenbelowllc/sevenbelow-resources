@@ -1,7 +1,7 @@
-# [YOUR PRODUCT] Resources
+# SevenBelow - Compliance OS Resources
 
 <p align="center">
-  <img src="assets/logo.png" alt="[YOUR PRODUCT] Logo" width="200">
+  <img src="assets/logo.png" alt="SevenBelow - Compliance OS Logo" width="200">
 </p>
 
 <p align="center">
