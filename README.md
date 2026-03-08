@@ -16,7 +16,7 @@
 
 ---
 
-This repository showcases a production-grade AI-assisted development framework built on Claude Code, featuring the GSD (Get Shit Done) methodology, CARL (Context-Aware Rule Layer) governance, and a comprehensive Claude Skills architecture. Developed as the foundation for the **[YOUR PRODUCT NAME]** MVP, it demonstrates a rigorously structured multi-repo environment with strict separation of concerns across Authority, Orchestration, and Execution layers.
+This repository showcases a production-grade AI-assisted development framework built on Claude Code, featuring the GSD (Get Shit Done) methodology, CARL (Context-Aware Rule Layer) governance, and a comprehensive Claude Skills architecture. Developed as the foundation for the **SevenBelow - Compliance OS** MVP, it demonstrates a rigorously structured multi-repo environment with strict separation of concerns across Authority, Orchestration, and Execution layers.
 
 > **📝 Note from the Author:** Just 6–8 weeks ago, I was a complete beginner with Claude Code. This repository represents my first comprehensive implementation of these patterns—built through iterative learning and community mentorship. While this setup has proven effective for shipping production work, I recognize there are likely optimizations and refinements to be made. I'm currently developing a **v2 architecture** that incorporates lessons learned from real-world usage, which I'll publish once thoroughly vetted. My hope is that sharing this early iteration helps accelerate the learning curve for others embarking on their own AI-assisted development journey.
 
