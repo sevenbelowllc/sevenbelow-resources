@@ -1,0 +1,239 @@
+[
+  {
+    "id": 1,
+    "title": "Login fails with 500 error after password reset",
+    "body": "## Bug Report\n\n**Severity:** High\n\nAfter resetting a password via the `/auth/reset-password` endpoint, subsequent login attempts return a 500 Internal Server Error. The old session token appears to still be cached in Redis.\n\n**Steps to Reproduce:**\n1. Navigate to `/login`\n2. Click 'Forgot Password'\n3. Complete password reset flow\n4. Attempt to log in with new password\n\n**Expected:** Successful login, redirect to dashboard\n**Actual:** 500 error, `InvalidSessionError` in logs\n\n**Stack trace:**\n```\nInvalidSessionError: session token mismatch\n  at auth/session.py:142\n  at auth/middleware.py:88\n```\n\n**Environment:** Production, affects ~12% of users who reset passwords in last 24h.",
+    "comments": [
+      "Confirmed on staging. The Redis TTL for password reset tokens isn't being cleared on success.",
+      "Fix incoming — the `invalidate_old_sessions()` call was removed in PR #203 by accident.",
+      "Hotfix deployed to production. Monitoring for recurrence."
+    ],
+    "labels_existing": ["bug", "auth", "urgent"],
+    "author": "sarah_chen",
+    "created_at": "2026-04-06"
+  },
+  {
+    "id": 2,
+    "title": "Payment processing hangs indefinitely on Stripe webhook timeout",
+    "body": "## Bug Report\n\n**Severity:** High\n\nWhen Stripe's webhook delivery takes longer than 10 seconds (their max retry interval), our webhook handler doesn't respond, causing Stripe to retry. This creates duplicate payment records.\n\n**Root Cause:** The `process_payment_webhook` function in `payments/webhooks.py` makes a synchronous DB write that blocks the event loop.\n\n**Impact:** ~30 duplicate payment records found in production over the past week. Customers are being double-charged.\n\n**Logs:**\n```\n[ERROR] payments.webhooks: DB write timeout after 12.3s\n[ERROR] payments.webhooks: Stripe retry attempt 2 for event evt_3Nxyz\n```\n\n**Fix required:** Move DB write to async task queue (Celery). Respond 200 immediately, process async.",
+    "comments": [
+      "This is critical. Finance team has 30 refunds pending.",
+      "Moving to Celery task will require changes to payment_processor.py and webhook handler.",
+      "Can we add idempotency key checks as a short-term fix?",
+      "Idempotency key check added in PR #217 as interim fix. Full async refactor tracked in #234."
+    ],
+    "labels_existing": ["bug", "urgent", "backend"],
+    "author": "marcus_obi",
+    "created_at": "2026-04-07"
+  },
+  {
+    "id": 3,
+    "title": "Dashboard chart data incorrect for multi-timezone users",
+    "body": "## Bug Report\n\n**Severity:** High\n\nUsers in non-UTC timezones see incorrect data in the dashboard analytics charts. The backend returns timestamps in UTC but the frontend renders them without timezone conversion, causing data to appear shifted by the user's UTC offset.\n\n**Affected components:**\n- `DashboardChart.tsx` — no timezone conversion\n- `analytics/aggregator.py` — returns naive datetime objects\n\n**Steps to Reproduce:**\n1. Set account timezone to `America/New_York` (UTC-4)\n2. View dashboard 'Daily Active Users' chart\n3. Observe data appears shifted 4 hours\n\n**Impact:** All users outside UTC. Approximately 67% of user base.\n\n**Proposed Fix:** Convert all datetime objects to timezone-aware in the aggregator, pass timezone hint in API response, handle in `DashboardChart.tsx`.",
+    "comments": [
+      "The aggregator has been using naive datetimes since the initial launch. This is a widespread issue.",
+      "Frontend fix is straightforward — moment.js handles this. Backend will take longer.",
+      "PR #219 addresses frontend. Backend fix in PR #221."
+    ],
+    "labels_existing": ["bug", "frontend", "backend"],
+    "author": "priya_sharma",
+    "created_at": "2026-04-08"
+  },
+  {
+    "id": 4,
+    "title": "Notification emails not sent when user has special characters in email address",
+    "body": "## Bug Report\n\n**Severity:** High\n\nUsers with `+` characters in their email addresses (e.g., `user+tag@example.com`) are not receiving notification emails. The email validation regex in `notifications/validator.py` incorrectly rejects these addresses.\n\n**Regex (broken):** `r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'`\n\nNote: the `+` character is missing from the allowed set before `@`.\n\n**Impact:** ~8% of users use tagged email addresses. None are receiving notifications.\n\n**Fix:** Update regex to include `+` or use Python's `email.utils.parseaddr()` for validation.",
+    "comments": [
+      "This regex has been in the codebase since day 1. Classic oversight.",
+      "Also affects password reset emails — same validator is used.",
+      "Fix is trivial but high impact. PR #222 submitted."
+    ],
+    "labels_existing": ["bug", "backend"],
+    "author": "alex_torres",
+    "created_at": "2026-04-09"
+  },
+  {
+    "id": 5,
+    "title": "API rate limiter blocks legitimate requests after server restart",
+    "body": "## Bug Report\n\n**Severity:** High\n\nAfter a server restart, the in-memory rate limiter resets all counters. However, because Redis isn't used as the backing store, users who were at their rate limit threshold just before restart get a fresh 1000-request allowance. Conversely, some users are getting 429 errors immediately after restart due to a stale Redis key that wasn't cleared.\n\n**Affected file:** `api/rate_limiter.py`\n\n**The problem is two-fold:**\n1. In-memory state is lost on restart (allows bypass)\n2. Stale Redis keys from previous instance cause false positives\n\n**Steps to reproduce false positive:**\n1. Restart API server\n2. Make any API request as a user who was active in last hour\n3. Observe 429 Too Many Requests\n\n**Required fix:** Migrate fully to Redis-backed rate limiting with proper TTL management.",
+    "comments": [
+      "This is causing customer complaints. 3 enterprise clients hit this after last night's deploy.",
+      "Redis migration for rate limiter was deprioritized in Q1. Needs to be unblocked.",
+      "Temporary fix: flush stale Redis keys on startup. PR #224 for the flush, #235 for full migration."
+    ],
+    "labels_existing": ["bug", "backend", "urgent"],
+    "author": "sarah_chen",
+    "created_at": "2026-04-10"
+  },
+  {
+    "id": 6,
+    "title": "Add dark mode support to dashboard",
+    "body": "## Feature Request\n\n**Priority:** Medium\n\nUsers have been requesting dark mode for months. The dashboard currently only supports the default light theme. We should implement a dark mode toggle using CSS custom properties.\n\n**Proposed approach:**\n- Add `data-theme` attribute to `<html>` element\n- Define dark theme CSS variables in `styles/themes/dark.css`\n- Persist preference in `localStorage`\n- Add toggle button in user settings dropdown\n\n**Design mockups:** See Figma link in project board\n\n**Acceptance criteria:**\n- [ ] Dark mode toggle in user settings\n- [ ] Preference persisted across sessions\n- [ ] All dashboard components styled correctly\n- [ ] Meets WCAG AA contrast requirements in dark mode",
+    "comments": [
+      "Design team has mockups ready. Waiting on engineering prioritization.",
+      "CSS variables are already partially set up — this is mostly a frontend task."
+    ],
+    "labels_existing": ["feature", "frontend"],
+    "author": "jordan_lee",
+    "created_at": "2026-04-06"
+  },
+  {
+    "id": 7,
+    "title": "Add export to CSV functionality for analytics reports",
+    "body": "## Feature Request\n\n**Priority:** Medium\n\nEnterprise customers need the ability to export analytics data as CSV for use in their internal BI tools. Currently, data is only viewable in the dashboard.\n\n**Scope:**\n- Add 'Export CSV' button to analytics dashboard\n- Backend endpoint: `GET /api/analytics/export?format=csv&start=YYYY-MM-DD&end=YYYY-MM-DD`\n- Stream response for large datasets (avoid memory issues)\n- Include column headers matching dashboard labels\n\n**Rate limiting:** Export endpoint should have its own rate limit (10/hour per user).\n\n**Auth:** Require `analytics:export` permission scope.",
+    "comments": [
+      "Enterprise tier customers have been asking for this since Q3 last year.",
+      "Streaming with `StreamingHttpResponse` in Django should handle large datasets cleanly."
+    ],
+    "labels_existing": ["feature", "backend"],
+    "author": "marcus_obi",
+    "created_at": "2026-04-07"
+  },
+  {
+    "id": 8,
+    "title": "Implement two-factor authentication (TOTP)",
+    "body": "## Feature Request\n\n**Priority:** Medium\n\nAdd TOTP-based two-factor authentication to the authentication flow. This is a compliance requirement for enterprise customers.\n\n**Libraries:** `pyotp` for TOTP generation/verification, `qrcode` for QR code generation.\n\n**User flow:**\n1. User enables 2FA in account settings\n2. App displays QR code to scan with authenticator app\n3. User enters 6-digit code to confirm setup\n4. On subsequent logins, user prompted for TOTP code after password\n\n**Schema changes:**\n- Add `totp_secret` field to `User` model (encrypted at rest)\n- Add `two_factor_enabled` boolean field\n\n**Recovery codes:** Generate 8 single-use recovery codes on setup.",
+    "comments": [
+      "SOC2 compliance requires this by end of Q2.",
+      "The `pyotp` library is battle-tested. Recommend using it.",
+      "We'll need to update the login flow in 3 places: web, mobile API, and OAuth."
+    ],
+    "labels_existing": ["feature", "auth", "backend"],
+    "author": "priya_sharma",
+    "created_at": "2026-04-08"
+  },
+  {
+    "id": 9,
+    "title": "Add webhook support for payment events",
+    "body": "## Feature Request\n\n**Priority:** Medium\n\nAllow customers to register webhook URLs to receive real-time notifications for payment events (succeeded, failed, refunded).\n\n**API design:**\n- `POST /api/webhooks` — register a webhook URL\n- `DELETE /api/webhooks/{id}` — remove a webhook\n- `GET /api/webhooks` — list registered webhooks\n\n**Delivery:** Webhooks should be delivered via Celery tasks with exponential backoff retry (max 5 attempts).\n\n**Security:** Sign each webhook payload with HMAC-SHA256 using a per-webhook secret. Customer can verify signature.\n\n**Event types:** `payment.succeeded`, `payment.failed`, `payment.refunded`, `subscription.cancelled`",
+    "comments": [
+      "This is a top request from our API-first customers.",
+      "Celery + exponential backoff is the right approach. See existing email task for reference."
+    ],
+    "labels_existing": ["feature", "backend"],
+    "author": "alex_torres",
+    "created_at": "2026-04-09"
+  },
+  {
+    "id": 10,
+    "title": "Real-time notifications via WebSocket",
+    "body": "## Feature Request\n\n**Priority:** Medium\n\nReplace the current polling-based notification system with WebSocket-based real-time push notifications. Currently, the frontend polls `/api/notifications` every 30 seconds, which is inefficient.\n\n**Proposed tech stack:** Django Channels with Redis channel layer.\n\n**Scope:**\n- Set up Django Channels\n- Create `NotificationConsumer` WebSocket handler\n- Update frontend to use WebSocket connection\n- Migrate notification delivery from REST to WebSocket push\n\n**Fallback:** If WebSocket connection fails, fall back to polling.\n\n**Expected outcome:** Notification latency reduced from ~30s to <1s.",
+    "comments": [
+      "Django Channels adds some complexity but the latency improvement is worth it.",
+      "We should keep the REST endpoint as fallback for older clients."
+    ],
+    "labels_existing": ["feature", "backend", "frontend"],
+    "author": "sarah_chen",
+    "created_at": "2026-04-10"
+  },
+  {
+    "id": 11,
+    "title": "Update API documentation for v2 endpoints",
+    "body": "## Documentation\n\n**Priority:** Low\n\nThe API documentation in `/docs/api/` is outdated and does not reflect the v2 endpoint changes introduced in the last two sprints. The following endpoints are missing or have incorrect parameter descriptions:\n\n- `GET /api/v2/analytics` — new `group_by` parameter not documented\n- `POST /api/v2/payments/intent` — `metadata` field undocumented\n- `DELETE /api/v2/users/{id}` — response schema changed, docs not updated\n\n**Action:** Update OpenAPI spec in `openapi.yaml` and regenerate API reference docs.",
+    "comments": [
+      "The OpenAPI spec is the source of truth — update there first, then regenerate HTML docs."
+    ],
+    "labels_existing": ["docs"],
+    "author": "jordan_lee",
+    "created_at": "2026-04-06"
+  },
+  {
+    "id": 12,
+    "title": "Add contributing guidelines and PR template",
+    "body": "## Chore\n\n**Priority:** Low\n\nThe repository lacks a `CONTRIBUTING.md` and a pull request template. New contributors are unsure of the expected commit format, code style, and review process.\n\n**Deliverables:**\n- `CONTRIBUTING.md` — setup instructions, code style guide, commit convention (Conventional Commits)\n- `.github/PULL_REQUEST_TEMPLATE.md` — checklist for PR authors\n- `.github/ISSUE_TEMPLATE/bug_report.md` and `feature_request.md`",
+    "comments": [
+      "Long overdue. Let's use the Angular Conventional Commits format we've been informally following."
+    ],
+    "labels_existing": ["docs"],
+    "author": "marcus_obi",
+    "created_at": "2026-04-07"
+  },
+  {
+    "id": 13,
+    "title": "Upgrade Python dependencies to latest stable versions",
+    "body": "## Chore\n\n**Priority:** Low\n\nSeveral dependencies are pinned to outdated versions with known CVEs:\n\n- `Django 4.1.7` → upgrade to `4.2.x` (LTS)\n- `Pillow 9.3.0` → `10.x` (CVE-2023-44271 fix)\n- `cryptography 39.0.0` → `42.x` (multiple CVE fixes)\n- `celery 5.2.7` → `5.3.x`\n\n**Action:** Update `requirements.txt`, run full test suite, fix any compatibility issues.",
+    "comments": [
+      "Django 4.1 reaches EOL in April 2023. We're overdue.",
+      "Pillow upgrade has breaking API changes for certain image operations — check usages."
+    ],
+    "labels_existing": ["docs"],
+    "author": "priya_sharma",
+    "created_at": "2026-04-08"
+  },
+  {
+    "id": 14,
+    "title": "Refactor test suite to use pytest fixtures consistently",
+    "body": "## Chore\n\n**Priority:** Low\n\nThe test suite mixes `unittest.TestCase` subclasses and bare pytest functions, leading to inconsistent fixture usage and some tests that can't use pytest's powerful parameterize/fixture system.\n\n**Goal:** Migrate all `TestCase` subclasses to plain pytest functions with fixtures.\n\n**Affected files:** ~40 test files in `tests/` directory.\n\n**Note:** Do not change test logic, only the structure and fixture usage.",
+    "comments": [
+      "This will also let us use `pytest-asyncio` more cleanly for the async tests."
+    ],
+    "labels_existing": ["docs"],
+    "author": "alex_torres",
+    "created_at": "2026-04-09"
+  },
+  {
+    "id": 15,
+    "title": "Sidebar nav disappears on mobile viewport",
+    "body": null,
+    "comments": [],
+    "labels_existing": ["bug", "frontend"],
+    "author": "unknown_reporter",
+    "created_at": "2026-04-10"
+  },
+  {
+    "id": 16,
+    "title": "Payment button unresponsive after first click",
+    "body": "",
+    "comments": [],
+    "labels_existing": ["bug"],
+    "author": "anonymous",
+    "created_at": "2026-04-10"
+  },
+  {
+    "id": 17,
+    "title": "Dashboard slow to load",
+    "body": "   ",
+    "comments": [],
+    "labels_existing": ["bug"],
+    "author": "user_feedback",
+    "created_at": "2026-04-11"
+  },
+  {
+    "id": 18,
+    "title": "Internal auth service sometimes returns wrong user data",
+    "body": "## Bug Report\n\nWe've been seeing intermittent issues where the auth service returns incorrect user profile data. I was debugging this with alice@company.internal and she confirmed that her account sometimes shows another user's notification preferences.\n\nThis might be related to a caching bug we fixed last month — the user profile cache key might not be unique enough when users have similar IDs.\n\nThe session cookie handling might also be involved but I'm not sure. Could also be a race condition in the profile loader.\n\nHard to reproduce consistently — happens maybe 1 in 200 requests under load.",
+    "comments": [
+      "alice@company.internal confirmed she can reproduce it under load testing.",
+      "Looks like the cache key is `user_{id}` but `id` is not padded, so user 1 and user 10 could collide when IDs are substrings of each other in certain hash implementations."
+    ],
+    "labels_existing": ["bug", "auth"],
+    "author": "dev_bob",
+    "created_at": "2026-04-09"
+  },
+  {
+    "id": 19,
+    "title": "API key exposure in notification service config",
+    "body": "## Bug Report\n\nFound a hardcoded credential in the notification service during code review.\n\nIn `notifications/config.py`, line 47:\n```python\nSENDGRID_API_KEY = \"ghp_secrettoken123abc\"\n```\n\nThis should be loaded from environment variables, not hardcoded. The key appears to be a real token that was accidentally committed.\n\n**Immediate action required:**\n1. Rotate the exposed key in SendGrid dashboard\n2. Remove hardcoded value from source\n3. Load from `os.environ.get('SENDGRID_API_KEY')`\n4. Add pre-commit hook to detect secret patterns",
+    "comments": [
+      "Key has been rotated. New key in Vault under `notifications/sendgrid`.",
+      "Added `detect-secrets` pre-commit hook in PR #228.",
+      "Need to audit git history and rewrite if the key appears in older commits."
+    ],
+    "labels_existing": ["bug", "urgent", "backend"],
+    "author": "security_reviewer",
+    "created_at": "2026-04-08"
+  },
+  {
+    "id": 20,
+    "title": "Notification delivery failure rates increased after last deploy",
+    "body": "## Bug Report\n\nSince the deploy on 2026-04-09 at 14:30 UTC, email notification delivery failure rates have increased from ~0.5% to ~8%. This might be related to the email validator changes in PR #222, or it might be related to the Celery worker configuration changes.\n\nThe error logs show a mix of SMTP timeout errors and validation errors, so it's hard to tell which change caused what. Might also be a third factor — the SendGrid account had some issues around the same time.\n\nMonitoring dashboard shows the spike clearly but the root cause isn't obvious from the metrics alone.",
+    "comments": [
+      "Rolled back PR #222 changes to the validator. Failure rate is still elevated — so probably not the validator.",
+      "SMTP timeout errors suggest the Celery task timeout is too low after the worker config change.",
+      "Increasing Celery soft_time_limit from 30s to 90s seems to have resolved most failures."
+    ],
+    "labels_existing": ["bug", "backend"],
+    "author": "marcus_obi",
+    "created_at": "2026-04-10"
+  }
+]

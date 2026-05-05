@@ -1,0 +1,10 @@
+{
+  "title": "Login fails on Safari 17 with 500 error",
+  "body": "Multiple users (including alice@company.internal) report that login fails on Safari 17. The error is a 500 Internal Server Error. Reproduction steps: 1) Open Safari 17 on macOS Sonoma, 2) Navigate to login page, 3) Enter credentials, 4) Click submit. The server logs show a NullPointerException in AuthService.validate().",
+  "comments": [
+    "I can reproduce this on Safari 17.2 on macOS 14.1",
+    "Same issue on iOS Safari. Might be a WebKit issue.",
+    "Priority: this blocks our enterprise customers who mandate Safari."
+  ],
+  "labels_existing": ["bug", "frontend", "backend", "auth", "urgent", "low-priority"]
+}

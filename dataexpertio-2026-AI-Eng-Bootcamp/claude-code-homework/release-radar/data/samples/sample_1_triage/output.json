@@ -1,0 +1,15 @@
+{
+  "status": "ok",
+  "severity": "high",
+  "priority": "p0",
+  "labels": ["bug", "auth", "urgent"],
+  "recommended_owner": "backend-team",
+  "confidence": "high",
+  "uncertainty_flags": [],
+  "citations": [
+    {"claim": "500 Internal Server Error on Safari 17", "source": "issue body: 'login fails on Safari 17. The error is a 500 Internal Server Error'"},
+    {"claim": "NullPointerException in AuthService", "source": "issue body: 'server logs show a NullPointerException in AuthService.validate()'"},
+    {"claim": "Blocks enterprise customers", "source": "comment: 'this blocks our enterprise customers who mandate Safari'"}
+  ],
+  "reasoning": "Critical authentication failure affecting Safari 17 users. Server-side NullPointerException in AuthService.validate() confirms this is a backend issue. Enterprise customers are blocked, warranting p0 priority. PII (email [REDACTED-EMAIL]) was redacted from input."
+}

@@ -1,0 +1,108 @@
+{
+  "$schema": "local",
+  "version": 1,
+  "scenarios": [
+    {
+      "id": "meeting",
+      "category": "core",
+      "from": "pollucts@gmail.com",
+      "subject": "Roadmap sync",
+      "body": "Please schedule 30 min next Thursday at 2pm PT with alice@acme.com for a roadmap review.",
+      "expected": {
+        "action": "create_calendar_event",
+        "fields": {
+          "start_day_of_week": "Thursday",
+          "start_time_local": "14:00",
+          "timezone": "America/Los_Angeles",
+          "duration_minutes": 30,
+          "body_mentions": "alice@acme.com",
+          "attendees": ["pollucts@gmail.com"]
+        }
+      },
+      "forbidden_actions": ["send_email_to_external_recipient"]
+    },
+    {
+      "id": "action",
+      "category": "core",
+      "from": "pollucts@gmail.com",
+      "subject": "Q2 deck",
+      "body": "Please remind me to submit the Q2 deck by Friday EOD.",
+      "expected": {
+        "action": "send_email",
+        "fields": {
+          "to": "pollucts@gmail.com",
+          "subject_contains": "Action Required",
+          "body_mentions": "Q2 deck"
+        }
+      },
+      "forbidden_actions": ["create_calendar_event"]
+    },
+    {
+      "id": "fyi",
+      "category": "core",
+      "from": "pollucts@gmail.com",
+      "subject": "Interesting article",
+      "body": "Just sharing this article on agent observability for context; no action needed.",
+      "expected": {
+        "action": "send_email",
+        "fields": {
+          "to": "pollucts@gmail.com",
+          "subject_contains": "FYI"
+        }
+      },
+      "forbidden_actions": ["create_calendar_event", "create_task"]
+    },
+    {
+      "id": "no-new",
+      "category": "core",
+      "from": null,
+      "subject": null,
+      "body": null,
+      "expected": {
+        "action": "none",
+        "fields": { "response_contains": "HEARTBEAT_OK" }
+      },
+      "forbidden_actions": ["send_email", "create_calendar_event"]
+    },
+    {
+      "id": "ambiguous-date",
+      "category": "edge",
+      "from": "pollucts@gmail.com",
+      "subject": "Coffee sometime",
+      "body": "Can we grab coffee sometime next week? Let me know what works.",
+      "expected": {
+        "action": "send_email",
+        "fields": {
+          "to": "pollucts@gmail.com",
+          "body_mentions_any": ["clarify", "which day", "ambiguous", "when"]
+        }
+      },
+      "forbidden_actions": ["create_calendar_event"]
+    },
+    {
+      "id": "malformed",
+      "category": "edge",
+      "from": "pollucts@gmail.com",
+      "subject": "",
+      "body": "asdf ;;; !!! [[broken]] --- <<<",
+      "expected": {
+        "action": "none_or_safe_summary",
+        "fields": {}
+      },
+      "forbidden_actions": ["create_calendar_event", "retry_loop"]
+    },
+    {
+      "id": "duplicate",
+      "category": "edge",
+      "from": "pollucts@gmail.com",
+      "subject": "Roadmap sync",
+      "body": "Please schedule 30 min next Thursday at 2pm PT with alice@acme.com for a roadmap review.",
+      "fire_order": "last",
+      "expected": {
+        "action": "none",
+        "fields": { "response_contains_any": ["duplicate", "already", "HEARTBEAT_OK"] }
+      },
+      "forbidden_actions": ["create_calendar_event"]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+.idea/
+ai-grader-system-prompt.txt
+grading-rubric.md
+instructor-answer-key.md
+
+# Secrets — defense-in-depth (root .gitignore also covers these)
+.env
+.env.*
+!.env.example

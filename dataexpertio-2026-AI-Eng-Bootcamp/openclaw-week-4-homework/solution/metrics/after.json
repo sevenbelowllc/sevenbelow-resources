@@ -1,0 +1,25 @@
+{
+  "result": "HEARTBEAT_OK",
+  "tool_calls": 3,
+  "estimated_tokens": 82,
+  "calls": [
+    {
+      "name": "Gmail:Find Email",
+      "query": "unread last 24h",
+      "limit": 100
+    },
+    {
+      "name": "Google Calendar:Create Detailed Event",
+      "title": "Meeting requested: Schedule a meeting",
+      "start": "next business day 14:00",
+      "end": "next business day 14:30",
+      "attendee": "owner@example.com"
+    },
+    {
+      "name": "Gmail:Send Email",
+      "to": "owner@example.com",
+      "subject": "Action Required",
+      "body_len": 121
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "subject": "Engineering Update: Week of April 5-11, 2026",
+  "body": "Hi team,\n\nHere's what the engineering team shipped this week.\n\n## What Shipped\n\nWe merged 12 changes this week across bug fixes, new features, and maintenance:\n\n- **Authentication upgrade**: Migrated from session-based auth to OAuth2, providing better security and third-party integration support. A migration script handles existing sessions automatically.\n- **Bug fixes**: Resolved login timeout issues, corrected payment rounding calculations, fixed notification delivery reliability, and improved API rate limiting.\n- **New features**: Added dashboard charts, CSV export, search filters, and dark mode support.\n- **Maintenance**: Updated dependencies, improved CI configuration, and refreshed documentation.\n\n## Risk & Impact\n\n- **High**: The OAuth2 migration is a breaking change. Existing session-based auth will no longer work after deployment. A migration script is included, but QA must verify the full OAuth2 flow before release.\n- **Medium**: Payment rounding fix affects financial calculations. The finance team should validate against test data.\n- **Low**: All other changes are backward-compatible.\n\n## Action Items\n\n1. **QA**: Verify OAuth2 authentication flow end-to-end before release\n2. **Finance**: Validate payment calculations against test data set\n3. **Ops**: Plan deployment window for OAuth2 migration (requires brief downtime for session migration)\n\nReach out if you have questions.\n\nBest,\nRelease Radar",
+  "pii_redacted": true,
+  "confidence": "high",
+  "citations": [
+    {"claim": "OAuth2 migration", "source": "digest: commit def5678"},
+    {"claim": "payment rounding fix", "source": "digest: commit abc1234"},
+    {"claim": "migration script included", "source": "PR summary: diff auth/migrate.py added"}
+  ]
+}

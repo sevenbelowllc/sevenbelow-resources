@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-04-07T22:24:01",
+  "assignment": "assignment1_context_overflow",
+  "assignment_dir": "/Users/pollucts/workdir/dataexpertio-bootcamp-allrepos/dataexpertio-bootcamp/langchain-homework-2026/assignment1_context_overflow",
+  "starter_vs_solution": {
+    "assignment": "assignment1_context_overflow",
+    "assignment_dir": "/Users/pollucts/workdir/dataexpertio-bootcamp-allrepos/dataexpertio-bootcamp/langchain-homework-2026/assignment1_context_overflow",
+    "starter": {
+      "file": "starter.py",
+      "path": "/Users/pollucts/workdir/dataexpertio-bootcamp-allrepos/dataexpertio-bootcamp/langchain-homework-2026/assignment1_context_overflow/starter.py",
+      "lines": 181,
+      "bytes": 6861
+    },
+    "solutions": [
+      {
+        "file": "solution.py",
+        "path": "/Users/pollucts/workdir/dataexpertio-bootcamp-allrepos/dataexpertio-bootcamp/langchain-homework-2026/assignment1_context_overflow/solution.py",
+        "lines": 424,
+        "bytes": 17213
+      }
+    ],
+    "has_solution_py": true,
+    "primary_solution": {
+      "file": "solution.py",
+      "path": "/Users/pollucts/workdir/dataexpertio-bootcamp-allrepos/dataexpertio-bootcamp/langchain-homework-2026/assignment1_context_overflow/solution.py",
+      "lines": 424,
+      "bytes": 17213
+    },
+    "line_delta_primary_vs_starter": 243,
+    "other_solution_files": [],
+    "comparison_rows": [
+      {
+        "role": "starter",
+        "file": "starter.py",
+        "lines": 181,
+        "bytes": 6861,
+        "line_delta_vs_starter": null
+      },
+      {
+        "role": "solution",
+        "file": "solution.py",
+        "lines": 424,
+        "bytes": 17213,
+        "line_delta_vs_starter": 243
+      }
+    ]
+  },
+  "runs": [
+    {
+      "run_id": "run-001",
+      "chain": "assignment1_context_overflow",
+      "script": "solution.py",
+      "model": "unknown",
+      "provider": "Unknown",
+      "timestamp": "2026-04-07T22:24:01",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "total_tokens": 0,
+      "input_cost": 0.0,
+      "output_cost": 0.0,
+      "total_cost": 0.0
+    }
+  ]
+}

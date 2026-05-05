@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "pre_tool_call": [
+      {
+        "command": "python guardrails/hooks/pre_tool_guardrail.py"
+      }
+    ],
+    "post_tool_call": [
+      {
+        "command": "python guardrails/hooks/post_tool_guardrail.py"
+      }
+    ]
+  }
+}

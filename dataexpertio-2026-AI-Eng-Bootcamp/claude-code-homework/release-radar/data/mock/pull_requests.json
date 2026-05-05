@@ -1,0 +1,413 @@
+[
+  {
+    "id": 101,
+    "title": "feat: implement two-factor authentication with TOTP",
+    "description": "Adds TOTP-based 2FA to the authentication flow using `pyotp`. Users can enable 2FA in account settings, scan a QR code, and enter a 6-digit code on login. Generates 8 single-use recovery codes on setup. Closes #8.\n\n**Changes:**\n- New `TwoFactorView` in `auth/views.py`\n- `totp_secret` and `two_factor_enabled` fields on `User` model\n- TOTP verification middleware\n- Frontend setup wizard components",
+    "diff_snippets": [
+      "diff --git a/auth/totp.py b/auth/totp.py\n+++ b/auth/totp.py\n+import pyotp\n+\n+def generate_totp_secret():\n+    return pyotp.random_base32()\n+\n+def verify_totp(secret: str, code: str) -> bool:\n+    totp = pyotp.TOTP(secret)\n+    return totp.verify(code, valid_window=1)",
+      "diff --git a/auth/models.py b/auth/models.py\n+++ b/auth/models.py\n+    totp_secret = models.CharField(max_length=64, blank=True, encrypted=True)\n+    two_factor_enabled = models.BooleanField(default=False)\n+    recovery_codes = models.JSONField(default=list)",
+      "diff --git a/frontend/src/components/TwoFactorSetup.tsx b/frontend/src/components/TwoFactorSetup.tsx\n+++ b/frontend/src/components/TwoFactorSetup.tsx\n+export const TwoFactorSetup: React.FC = () => {\n+  const [qrCodeUrl, setQrCodeUrl] = useState('');\n+  const [verificationCode, setVerificationCode] = useState('');\n+  ...\n+}"
+    ],
+    "files_changed": [
+      "auth/totp.py",
+      "auth/models.py",
+      "auth/views.py",
+      "auth/middleware.py",
+      "auth/urls.py",
+      "frontend/src/components/TwoFactorSetup.tsx",
+      "frontend/src/components/LoginForm.tsx",
+      "frontend/src/api/auth.ts",
+      "tests/unit/test_totp.py",
+      "migrations/0024_user_totp_fields.py"
+    ],
+    "additions": 487,
+    "deletions": 23,
+    "author": "priya_sharma",
+    "merged_at": "2026-04-09",
+    "state": "merged"
+  },
+  {
+    "id": 102,
+    "title": "feat: add CSV export for analytics reports",
+    "description": "Implements CSV export endpoint for analytics data. Enterprise users can export any date range as CSV via `GET /api/analytics/export`. Uses `StreamingHttpResponse` to handle large datasets. Rate-limited to 10 exports/hour. Closes #7.\n\n**New files:** `analytics/exporters.py`, `analytics/export_views.py`\n**Updated:** `api/rate_limiter.py` with export-specific rate limit config",
+    "diff_snippets": [
+      "diff --git a/analytics/exporters.py b/analytics/exporters.py\n+++ b/analytics/exporters.py\n+import csv\n+from django.http import StreamingHttpResponse\n+\n+class CsvExporter:\n+    def __init__(self, queryset, columns):\n+        self.queryset = queryset\n+        self.columns = columns\n+\n+    def generate_rows(self):\n+        yield self.columns\n+        for obj in self.queryset.iterator(chunk_size=500):\n+            yield [getattr(obj, col) for col in self.columns]\n+\n+    def stream_response(self, filename='export.csv'):\n+        response = StreamingHttpResponse(\n+            self._csv_generator(),\n+            content_type='text/csv'\n+        )\n+        response['Content-Disposition'] = f'attachment; filename=\"{filename}\"'\n+        return response",
+      "diff --git a/analytics/export_views.py b/analytics/export_views.py\n+++ b/analytics/export_views.py\n+@require_permission('analytics:export')\n+@rate_limit(key='analytics_export', limit=10, period=3600)\n+def export_analytics_csv(request):\n+    start = request.GET.get('start')\n+    end = request.GET.get('end')\n+    qs = AnalyticsEvent.objects.filter(date__range=[start, end])\n+    exporter = CsvExporter(qs, columns=EXPORT_COLUMNS)\n+    return exporter.stream_response()"
+    ],
+    "files_changed": [
+      "analytics/exporters.py",
+      "analytics/export_views.py",
+      "analytics/urls.py",
+      "api/rate_limiter.py",
+      "frontend/src/components/ExportButton.tsx",
+      "frontend/src/api/analytics.ts",
+      "tests/unit/test_csv_export.py",
+      "tests/integration/test_export_endpoint.py"
+    ],
+    "additions": 312,
+    "deletions": 8,
+    "author": "marcus_obi",
+    "merged_at": "2026-04-10",
+    "state": "merged"
+  },
+  {
+    "id": 103,
+    "title": "feat: real-time notifications via WebSocket (Django Channels)",
+    "description": "Replaces the 30-second polling mechanism with WebSocket push notifications using Django Channels and Redis channel layer. Frontend falls back to polling if WebSocket connection fails. Closes #10.\n\n**Infrastructure change:** Requires Redis channel layer in production (already available). Daphne ASGI server replaces Gunicorn for WebSocket support.",
+    "diff_snippets": [
+      "diff --git a/notifications/consumers.py b/notifications/consumers.py\n+++ b/notifications/consumers.py\n+from channels.generic.websocket import AsyncWebsocketConsumer\n+import json\n+\n+class NotificationConsumer(AsyncWebsocketConsumer):\n+    async def connect(self):\n+        self.user_id = self.scope['user'].id\n+        self.group_name = f'notifications_{self.user_id}'\n+        await self.channel_layer.group_add(self.group_name, self.channel_name)\n+        await self.accept()\n+\n+    async def disconnect(self, close_code):\n+        await self.channel_layer.group_discard(self.group_name, self.channel_name)\n+\n+    async def notification_message(self, event):\n+        await self.send(text_data=json.dumps(event['notification']))",
+      "diff --git a/frontend/src/hooks/useNotifications.ts b/frontend/src/hooks/useNotifications.ts\n+++ b/frontend/src/hooks/useNotifications.ts\n+export function useNotifications() {\n+  const [notifications, setNotifications] = useState([]);\n+  useEffect(() => {\n+    const ws = new WebSocket(`wss://${window.location.host}/ws/notifications/`);\n+    ws.onmessage = (event) => {\n+      const notif = JSON.parse(event.data);\n+      setNotifications(prev => [notif, ...prev]);\n+    };\n+    ws.onerror = () => { startPollingFallback(); };\n+    return () => ws.close();\n+  }, []);\n+}"
+    ],
+    "files_changed": [
+      "notifications/consumers.py",
+      "notifications/routing.py",
+      "notifications/tasks.py",
+      "config/asgi.py",
+      "config/settings.py",
+      "frontend/src/hooks/useNotifications.ts",
+      "frontend/src/components/NotificationBell.tsx",
+      "requirements.txt",
+      "docker-compose.yml",
+      "tests/unit/test_ws_consumer.py",
+      "tests/integration/test_notifications_ws.py"
+    ],
+    "additions": 543,
+    "deletions": 187,
+    "author": "sarah_chen",
+    "merged_at": "2026-04-11",
+    "state": "merged"
+  },
+  {
+    "id": 104,
+    "title": "feat: dark mode theme support",
+    "description": "Implements dark mode using CSS custom properties. Users can toggle dark mode in account settings; preference is persisted in `localStorage` and synced to user profile via API. All dashboard components updated for dark theme. Closes #6.\n\n**Design:** Uses `data-theme='dark'` attribute on root element. Color tokens defined in `styles/tokens.css`.",
+    "diff_snippets": [
+      "diff --git a/frontend/src/styles/tokens.css b/frontend/src/styles/tokens.css\n+++ b/frontend/src/styles/tokens.css\n+[data-theme='dark'] {\n+  --color-bg-primary: #1a1a2e;\n+  --color-bg-secondary: #16213e;\n+  --color-text-primary: #e0e0e0;\n+  --color-text-secondary: #a0a0b0;\n+  --color-accent: #4a9eff;\n+  --color-border: #2d2d4e;\n+}",
+      "diff --git a/frontend/src/components/ThemeToggle.tsx b/frontend/src/components/ThemeToggle.tsx\n+++ b/frontend/src/components/ThemeToggle.tsx\n+export const ThemeToggle: React.FC = () => {\n+  const { theme, setTheme } = useTheme();\n+  return (\n+    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>\n+      {theme === 'dark' ? <SunIcon /> : <MoonIcon />}\n+    </button>\n+  );\n+}"
+    ],
+    "files_changed": [
+      "frontend/src/styles/tokens.css",
+      "frontend/src/styles/themes/dark.css",
+      "frontend/src/contexts/ThemeContext.tsx",
+      "frontend/src/hooks/useTheme.ts",
+      "frontend/src/components/ThemeToggle.tsx",
+      "frontend/src/components/Dashboard.tsx",
+      "frontend/src/components/Sidebar.tsx",
+      "frontend/src/components/UserSettings.tsx",
+      "frontend/src/components/NotificationPanel.tsx",
+      "tests/unit/test_theme_toggle.ts"
+    ],
+    "additions": 398,
+    "deletions": 45,
+    "author": "jordan_lee",
+    "merged_at": "2026-04-10",
+    "state": "merged"
+  },
+  {
+    "id": 105,
+    "title": "feat: webhook support for payment events",
+    "description": "Implements customer-facing webhook registration and delivery for payment events. Webhooks are delivered via Celery with exponential backoff (max 5 attempts). Payloads are HMAC-SHA256 signed. Closes #9.\n\n**New endpoints:** `POST/GET/DELETE /api/webhooks`\n**Event types:** payment.succeeded, payment.failed, payment.refunded, subscription.cancelled",
+    "diff_snippets": [
+      "diff --git a/payments/webhooks_outbound.py b/payments/webhooks_outbound.py\n+++ b/payments/webhooks_outbound.py\n+import hmac, hashlib, requests\n+from celery import shared_task\n+\n+@shared_task(bind=True, max_retries=5)\n+def deliver_webhook(self, webhook_id: int, event_type: str, payload: dict):\n+    webhook = Webhook.objects.get(id=webhook_id)\n+    body = json.dumps(payload).encode()\n+    signature = hmac.new(webhook.secret.encode(), body, hashlib.sha256).hexdigest()\n+    try:\n+        resp = requests.post(\n+            webhook.url, data=body,\n+            headers={'X-Webhook-Signature': signature},\n+            timeout=10\n+        )\n+        resp.raise_for_status()\n+    except Exception as exc:\n+        raise self.retry(exc=exc, countdown=2 ** self.request.retries)"
+    ],
+    "files_changed": [
+      "payments/webhooks_outbound.py",
+      "payments/models.py",
+      "payments/views.py",
+      "payments/serializers.py",
+      "payments/urls.py",
+      "api/permissions.py",
+      "tests/unit/test_webhook_delivery.py",
+      "tests/integration/test_webhook_endpoints.py",
+      "migrations/0025_webhook_model.py"
+    ],
+    "additions": 421,
+    "deletions": 12,
+    "author": "alex_torres",
+    "merged_at": "2026-04-11",
+    "state": "merged"
+  },
+  {
+    "id": 106,
+    "title": "feat: add user onboarding checklist to dashboard",
+    "description": "Adds a guided onboarding checklist for new users on their first dashboard visit. Tracks completion state per user in the database. Checklist dismisses permanently once all steps are completed or user clicks 'Skip'.\n\n**Steps tracked:** profile complete, payment method added, first API key created, notification preferences set.",
+    "diff_snippets": [
+      "diff --git a/frontend/src/components/OnboardingChecklist.tsx b/frontend/src/components/OnboardingChecklist.tsx\n+++ b/frontend/src/components/OnboardingChecklist.tsx\n+export const OnboardingChecklist: React.FC<{ steps: OnboardingStep[] }> = ({ steps }) => {\n+  const completed = steps.filter(s => s.completed).length;\n+  return (\n+    <Card className='onboarding-checklist'>\n+      <h3>Get started ({completed}/{steps.length})</h3>\n+      {steps.map(step => <ChecklistItem key={step.id} step={step} />)}\n+    </Card>\n+  );\n+}",
+      "diff --git a/users/onboarding.py b/users/onboarding.py\n+++ b/users/onboarding.py\n+ONBOARDING_STEPS = [\n+    'profile_complete',\n+    'payment_method_added',\n+    'api_key_created',\n+    'notifications_configured',\n+]\n+\n+def get_onboarding_progress(user) -> dict:\n+    return {\n+        step: getattr(user.onboarding, step, False)\n+        for step in ONBOARDING_STEPS\n+    }"
+    ],
+    "files_changed": [
+      "users/onboarding.py",
+      "users/models.py",
+      "api/views/dashboard.py",
+      "frontend/src/components/OnboardingChecklist.tsx",
+      "frontend/src/components/Dashboard.tsx",
+      "frontend/src/api/users.ts",
+      "migrations/0026_user_onboarding.py",
+      "tests/unit/test_onboarding.py"
+    ],
+    "additions": 276,
+    "deletions": 19,
+    "author": "priya_sharma",
+    "merged_at": "2026-04-11",
+    "state": "merged"
+  },
+  {
+    "id": 107,
+    "title": "fix: clear Redis session tokens on password reset",
+    "description": "Restores the `invalidate_old_sessions()` call that was accidentally removed in PR #203. After a successful password reset, all active session tokens for the user are now invalidated in Redis. Closes #1.\n\n**Root cause:** A merge conflict resolution in PR #203 dropped the invalidation call from the reset handler.",
+    "diff_snippets": [
+      "diff --git a/auth/reset.py b/auth/reset.py\n--- a/auth/reset.py\n+++ b/auth/reset.py\n@@ -78,6 +78,7 @@ def complete_password_reset(user, new_password):\n     user.set_password(new_password)\n     user.save()\n+    invalidate_old_sessions(user)\n     reset_token.delete()\n     send_password_changed_notification(user)"
+    ],
+    "files_changed": [
+      "auth/reset.py",
+      "tests/unit/test_password_reset.py"
+    ],
+    "additions": 4,
+    "deletions": 1,
+    "author": "sarah_chen",
+    "merged_at": "2026-04-07",
+    "state": "merged"
+  },
+  {
+    "id": 108,
+    "title": "fix: add idempotency key check for Stripe webhooks",
+    "description": "Prevents duplicate payment records by checking Stripe's event idempotency key before processing. If we've already processed an event with the same ID, return 200 immediately without re-processing. Interim fix for #2 while full async refactor is implemented in #234.\n\n**New model:** `ProcessedStripeEvent` to track event IDs with TTL of 30 days.",
+    "diff_snippets": [
+      "diff --git a/payments/webhooks.py b/payments/webhooks.py\n--- a/payments/webhooks.py\n+++ b/payments/webhooks.py\n@@ -32,6 +32,10 @@ def process_payment_webhook(request):\n     event_id = payload.get('id')\n+    if ProcessedStripeEvent.objects.filter(event_id=event_id).exists():\n+        logger.info(f'Skipping duplicate Stripe event {event_id}')\n+        return HttpResponse(status=200)\n+    ProcessedStripeEvent.objects.create(event_id=event_id)\n     return handle_stripe_event(payload)"
+    ],
+    "files_changed": [
+      "payments/webhooks.py",
+      "payments/models.py",
+      "tests/unit/test_stripe_webhooks.py",
+      "migrations/0023_processed_stripe_event.py"
+    ],
+    "additions": 48,
+    "deletions": 3,
+    "author": "marcus_obi",
+    "merged_at": "2026-04-08",
+    "state": "merged"
+  },
+  {
+    "id": 109,
+    "title": "fix: correct dashboard timezone handling for non-UTC users",
+    "description": "Frontend fix for #3. `DashboardChart.tsx` now receives the user's timezone from the API response and applies it when rendering timestamps. Uses `date-fns-tz` for reliable timezone conversion.\n\n**Note:** Backend fix (making aggregator return timezone-aware datetimes) is tracked separately in PR #221.",
+    "diff_snippets": [
+      "diff --git a/frontend/src/components/DashboardChart.tsx b/frontend/src/components/DashboardChart.tsx\n--- a/frontend/src/components/DashboardChart.tsx\n+++ b/frontend/src/components/DashboardChart.tsx\n+import { toZonedTime, format } from 'date-fns-tz';\n+\n-const formatTimestamp = (ts: string) => new Date(ts).toLocaleDateString();\n+const formatTimestamp = (ts: string, tz: string) => {\n+  const zonedDate = toZonedTime(new Date(ts), tz);\n+  return format(zonedDate, 'MMM d', { timeZone: tz });\n+};"
+    ],
+    "files_changed": [
+      "frontend/src/components/DashboardChart.tsx",
+      "frontend/src/api/analytics.ts"
+    ],
+    "additions": 22,
+    "deletions": 8,
+    "author": "priya_sharma",
+    "merged_at": "2026-04-09",
+    "state": "merged"
+  },
+  {
+    "id": 110,
+    "title": "fix: update email validator to accept tagged addresses",
+    "description": "The email validation regex in `notifications/validator.py` was rejecting addresses with `+` characters (e.g., `user+tag@example.com`). Updated to use Python's `email.utils.parseaddr()` which correctly handles RFC 5321 compliant addresses. Closes #4.",
+    "diff_snippets": [
+      "diff --git a/notifications/validator.py b/notifications/validator.py\n--- a/notifications/validator.py\n+++ b/notifications/validator.py\n-import re\n-EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')\n-\n-def is_valid_email(email: str) -> bool:\n-    return bool(EMAIL_REGEX.match(email))\n+from email.utils import parseaddr\n+\n+def is_valid_email(email: str) -> bool:\n+    _, addr = parseaddr(email)\n+    return '@' in addr and '.' in addr.split('@')[-1]"
+    ],
+    "files_changed": [
+      "notifications/validator.py",
+      "tests/unit/test_email_validator.py"
+    ],
+    "additions": 11,
+    "deletions": 9,
+    "author": "alex_torres",
+    "merged_at": "2026-04-10",
+    "state": "merged"
+  },
+  {
+    "id": 111,
+    "title": "fix: flush stale Redis rate limit keys on startup",
+    "description": "Interim fix for #5. Adds a startup management command `flush_stale_rate_limits` that scans Redis for rate limit keys from previous server instances and removes them. Called automatically on Gunicorn `post_fork` signal.\n\n**Warning:** This does not fix the root issue (in-memory vs Redis hybrid). Full Redis migration in #235.",
+    "diff_snippets": [
+      "diff --git a/api/management/commands/flush_stale_rate_limits.py b/api/management/commands/flush_stale_rate_limits.py\n+++ b/api/management/commands/flush_stale_rate_limits.py\n+from django.core.management.base import BaseCommand\n+from django.core.cache import cache\n+\n+class Command(BaseCommand):\n+    def handle(self, *args, **kwargs):\n+        keys = cache.keys('rate_limit:*')\n+        cache.delete_many(keys)\n+        self.stdout.write(f'Flushed {len(keys)} stale rate limit keys')"
+    ],
+    "files_changed": [
+      "api/management/commands/flush_stale_rate_limits.py",
+      "config/gunicorn.conf.py",
+      "tests/unit/test_rate_limiter.py"
+    ],
+    "additions": 35,
+    "deletions": 2,
+    "author": "sarah_chen",
+    "merged_at": "2026-04-11",
+    "state": "merged"
+  },
+  {
+    "id": 112,
+    "title": "fix: remove hardcoded SendGrid API key from config",
+    "description": "Removes the hardcoded SendGrid API key from `notifications/config.py` and loads it from environment variable `SENDGRID_API_KEY`. Adds `detect-secrets` pre-commit hook to prevent future credential exposure. Closes #19.\n\n**IMPORTANT:** The exposed key `ghp_secrettoken123abc` has been rotated. New key is stored in Vault.",
+    "diff_snippets": [
+      "diff --git a/notifications/config.py b/notifications/config.py\n--- a/notifications/config.py\n+++ b/notifications/config.py\n-SENDGRID_API_KEY = \"ghp_secrettoken123abc\"\n+import os\n+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')\n+if not SENDGRID_API_KEY:\n+    raise EnvironmentError('SENDGRID_API_KEY environment variable is required')"
+    ],
+    "files_changed": [
+      "notifications/config.py",
+      ".pre-commit-config.yaml",
+      ".secrets.baseline"
+    ],
+    "additions": 18,
+    "deletions": 3,
+    "author": "security_reviewer",
+    "merged_at": "2026-04-09",
+    "state": "merged"
+  },
+  {
+    "id": 113,
+    "title": "refactor: extract payment processing into service layer",
+    "description": "Moves payment logic out of Django views into a dedicated `PaymentService` class in `payments/service.py`. Views now call service methods instead of containing business logic directly. Improves testability and separates concerns.\n\n**No behavior changes.** All existing tests pass. Added unit tests for `PaymentService` directly.",
+    "diff_snippets": [
+      "diff --git a/payments/service.py b/payments/service.py\n+++ b/payments/service.py\n+class PaymentService:\n+    def __init__(self, stripe_client=None):\n+        self.stripe = stripe_client or stripe\n+\n+    def create_payment_intent(self, amount: int, currency: str, user_id: int) -> dict:\n+        intent = self.stripe.PaymentIntent.create(\n+            amount=amount,\n+            currency=currency,\n+            metadata={'user_id': user_id}\n+        )\n+        Payment.objects.create(\n+            user_id=user_id,\n+            stripe_intent_id=intent['id'],\n+            amount=amount\n+        )\n+        return intent",
+      "diff --git a/payments/views.py b/payments/views.py\n--- a/payments/views.py\n+++ b/payments/views.py\n-    intent = stripe.PaymentIntent.create(amount=amount, currency=currency)\n-    Payment.objects.create(user=request.user, stripe_intent_id=intent['id'])\n+    service = PaymentService()\n+    intent = service.create_payment_intent(amount, currency, request.user.id)"
+    ],
+    "files_changed": [
+      "payments/service.py",
+      "payments/views.py",
+      "tests/unit/test_payment_service.py"
+    ],
+    "additions": 189,
+    "deletions": 134,
+    "author": "marcus_obi",
+    "merged_at": "2026-04-08",
+    "state": "merged"
+  },
+  {
+    "id": 114,
+    "title": "refactor: consolidate auth middleware into single pipeline",
+    "description": "Replaces three separate authentication middleware classes (`JWTMiddleware`, `SessionMiddleware`, `APIKeyMiddleware`) with a single composable `AuthPipeline` that tries each strategy in order. Reduces code duplication and makes auth strategy configuration explicit.\n\n**Behavior change:** Auth strategy order is now configurable via `AUTH_PIPELINE` setting. Default order: JWT → Session → API Key (unchanged from previous behavior).",
+    "diff_snippets": [
+      "diff --git a/auth/pipeline.py b/auth/pipeline.py\n+++ b/auth/pipeline.py\n+class AuthPipeline:\n+    def __init__(self, strategies=None):\n+        self.strategies = strategies or settings.AUTH_PIPELINE\n+\n+    def authenticate(self, request):\n+        for strategy_cls in self.strategies:\n+            strategy = strategy_cls()\n+            user = strategy.authenticate(request)\n+            if user:\n+                return user\n+        return None"
+    ],
+    "files_changed": [
+      "auth/pipeline.py",
+      "auth/middleware.py",
+      "auth/strategies/__init__.py",
+      "auth/strategies/jwt.py",
+      "auth/strategies/session.py",
+      "auth/strategies/api_key.py",
+      "config/settings.py",
+      "tests/unit/test_auth_pipeline.py"
+    ],
+    "additions": 234,
+    "deletions": 198,
+    "author": "sarah_chen",
+    "merged_at": "2026-04-09",
+    "state": "merged"
+  },
+  {
+    "id": 115,
+    "title": "refactor: migrate analytics aggregator to async",
+    "description": "Converts `analytics/aggregator.py` from synchronous Django ORM calls to async using `sync_to_async` wrappers. Prepares for eventual migration to fully async views. Also fixes the naive datetime issue from #3 — all aggregated results now return timezone-aware datetimes.",
+    "diff_snippets": [
+      "diff --git a/analytics/aggregator.py b/analytics/aggregator.py\n--- a/analytics/aggregator.py\n+++ b/analytics/aggregator.py\n+from asgiref.sync import sync_to_async\n+from django.utils import timezone\n+\n-def aggregate_daily_users(start, end):\n-    return AnalyticsEvent.objects.filter(\n-        date__range=[start, end]\n-    ).values('date').annotate(count=Count('user_id', distinct=True))\n+async def aggregate_daily_users(start, end, user_tz='UTC'):\n+    qs_fn = sync_to_async(lambda: list(\n+        AnalyticsEvent.objects.filter(date__range=[start, end])\n+        .values('date').annotate(count=Count('user_id', distinct=True))\n+    ))\n+    results = await qs_fn()\n+    return [{'date': timezone.localtime(r['date'], tz=user_tz), 'count': r['count']} for r in results]"
+    ],
+    "files_changed": [
+      "analytics/aggregator.py",
+      "analytics/views.py",
+      "tests/unit/test_aggregator.py"
+    ],
+    "additions": 87,
+    "deletions": 62,
+    "author": "priya_sharma",
+    "merged_at": "2026-04-10",
+    "state": "merged"
+  },
+  {
+    "id": 116,
+    "title": "refactor: extract notification delivery into strategy pattern",
+    "description": "Refactors `notifications/sender.py` to use the Strategy pattern, allowing email, SMS, and push notification delivery to be swapped independently. Adds `EmailStrategy`, `SMSStrategy`, and `PushStrategy` classes.\n\n**Motivation:** Preparing for pluggable notification channels in Q3. No behavior change.",
+    "diff_snippets": [
+      "diff --git a/notifications/strategies.py b/notifications/strategies.py\n+++ b/notifications/strategies.py\n+from abc import ABC, abstractmethod\n+\n+class NotificationStrategy(ABC):\n+    @abstractmethod\n+    def send(self, recipient: str, subject: str, body: str) -> bool:\n+        pass\n+\n+class EmailStrategy(NotificationStrategy):\n+    def send(self, recipient: str, subject: str, body: str) -> bool:\n+        # Uses existing SendGrid integration\n+        return sendgrid_client.send(to=recipient, subject=subject, body=body)"
+    ],
+    "files_changed": [
+      "notifications/strategies.py",
+      "notifications/sender.py",
+      "tests/unit/test_notification_strategies.py"
+    ],
+    "additions": 143,
+    "deletions": 98,
+    "author": "alex_torres",
+    "merged_at": "2026-04-11",
+    "state": "merged"
+  },
+  {
+    "id": 117,
+    "title": "chore: bump Django from 4.1.7 to 4.2.11",
+    "description": "Upgrades Django to 4.2.x LTS release. Django 4.1 reached EOL. This upgrade includes security patches and the new `facet filter` admin feature (not used). All existing tests pass after minor compatibility fixes.\n\n**Compat changes:**\n- `DEFAULT_AUTO_FIELD` was already set, no change needed\n- Updated 3 uses of deprecated `url()` to `re_path()` in legacy URL configs\n- `CSRF_TRUSTED_ORIGINS` format requirement enforced more strictly — updated config",
+    "diff_snippets": [
+      "diff --git a/requirements.txt b/requirements.txt\n--- a/requirements.txt\n+++ b/requirements.txt\n-Django==4.1.7\n+Django==4.2.11",
+      "diff --git a/config/urls.py b/config/urls.py\n--- a/config/urls.py\n+++ b/config/urls.py\n-from django.conf.urls import url\n+from django.urls import re_path as url"
+    ],
+    "files_changed": [
+      "requirements.txt",
+      "config/urls.py",
+      "config/settings.py",
+      "legacy/urls.py"
+    ],
+    "additions": 12,
+    "deletions": 10,
+    "author": "jordan_lee",
+    "merged_at": "2026-04-07",
+    "state": "merged"
+  },
+  {
+    "id": 118,
+    "title": "chore: upgrade Pillow to 10.3.0 and fix image processing compat",
+    "description": "Upgrades Pillow from 9.3.0 to 10.3.0 to resolve CVE-2023-44271. Pillow 10.x has breaking API changes for image operations — updated `users/avatar.py` to use the new `Image.Resampling.LANCZOS` constant (replaces deprecated `Image.ANTIALIAS`).\n\nAlso upgrades `cryptography` from 39.0.0 to 42.0.8 while we're here.",
+    "diff_snippets": [
+      "diff --git a/requirements.txt b/requirements.txt\n--- a/requirements.txt\n+++ b/requirements.txt\n-Pillow==9.3.0\n+Pillow==10.3.0\n-cryptography==39.0.0\n+cryptography==42.0.8",
+      "diff --git a/users/avatar.py b/users/avatar.py\n--- a/users/avatar.py\n+++ b/users/avatar.py\n-img = img.resize((128, 128), Image.ANTIALIAS)\n+img = img.resize((128, 128), Image.Resampling.LANCZOS)"
+    ],
+    "files_changed": [
+      "requirements.txt",
+      "users/avatar.py",
+      "tests/unit/test_avatar_processing.py"
+    ],
+    "additions": 8,
+    "deletions": 6,
+    "author": "alex_torres",
+    "merged_at": "2026-04-08",
+    "state": "merged"
+  },
+  {
+    "id": 119,
+    "title": "fix: internal user lookup uses alice@company.internal for test data",
+    "description": "During investigation of issue #18 (wrong user data returned from auth service), debug code was accidentally left in the user lookup path. The code was using a hardcoded test email `alice@company.internal` as a fallback when the primary lookup failed.\n\nThis caused some requests to return Alice's profile data instead of returning an error. Removes the debug fallback and adds proper error handling.",
+    "diff_snippets": [
+      "diff --git a/auth/user_lookup.py b/auth/user_lookup.py\n--- a/auth/user_lookup.py\n+++ b/auth/user_lookup.py\n-    except User.DoesNotExist:\n-        # TODO: remove this debug fallback\n-        logger.warning('User not found, falling back to alice@company.internal')\n-        return User.objects.get(email='alice@company.internal')\n+    except User.DoesNotExist:\n+        raise AuthenticationError(f'User with id {user_id} not found')"
+    ],
+    "files_changed": [
+      "auth/user_lookup.py",
+      "tests/unit/test_user_lookup.py"
+    ],
+    "additions": 6,
+    "deletions": 8,
+    "author": "dev_bob",
+    "merged_at": "2026-04-10",
+    "state": "merged"
+  },
+  {
+    "id": 120,
+    "title": "fix: increase Celery task timeout for notification delivery",
+    "description": "Increases `soft_time_limit` for email notification tasks from 30s to 90s to resolve the delivery failure spike reported in #20. The 30s limit was too aggressive for SendGrid's API under load.\n\nAlso adds Celery task monitoring via Flower — dashboard available at `/internal/flower/`.",
+    "diff_snippets": [
+      "diff --git a/config/celery.py b/config/celery.py\n--- a/config/celery.py\n+++ b/config/celery.py\n-CELERY_TASK_SOFT_TIME_LIMIT = 30\n+CELERY_TASK_SOFT_TIME_LIMIT = 90\n+CELERY_TASK_TIME_LIMIT = 120  # hard limit"
+    ],
+    "files_changed": [
+      "config/celery.py",
+      "notifications/tasks.py",
+      "requirements.txt",
+      "docker-compose.yml"
+    ],
+    "additions": 24,
+    "deletions": 5,
+    "author": "marcus_obi",
+    "merged_at": "2026-04-11",
+    "state": "merged"
+  }
+]

@@ -1,0 +1,5 @@
+{
+  "status": "insufficient_context",
+  "missing": ["body"],
+  "suggestion": "Please provide: body"
+}

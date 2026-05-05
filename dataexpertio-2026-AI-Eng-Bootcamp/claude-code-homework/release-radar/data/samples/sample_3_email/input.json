@@ -1,0 +1,29 @@
+{
+  "digest": {
+    "status": "ok",
+    "sections": {
+      "what_changed": "12 commits this week: 4 bug fixes (login timeout, payment rounding, notification delivery, API rate limiting), 5 features (OAuth2 provider, dashboard charts, export CSV, search filters, dark mode), 3 chores (dependency updates, CI config, docs).",
+      "risk_impact": "OAuth2 migration is a breaking change for existing session-based auth. Payment rounding fix affects financial calculations. Other changes are low-risk.",
+      "action_needed": "QA should verify OAuth2 flow end-to-end before release. Finance team should validate payment calculations against test data."
+    },
+    "confidence": "high",
+    "citations": [
+      {"claim": "OAuth2 migration", "source": "commit def5678: 'feat: add OAuth2 provider'"},
+      {"claim": "payment rounding fix", "source": "commit abc1234: 'fix: payment rounding error'"}
+    ]
+  },
+  "pr_summaries": [
+    {
+      "status": "ok",
+      "summary": "Migrates authentication from session-based to OAuth2. Adds new OAuth2 provider, updates auth middleware, and includes migration script for existing sessions.",
+      "risk_checklist": [
+        {"risk": "Breaking change for existing sessions", "severity": "high", "mitigation": "Migration script included"},
+        {"risk": "New dependency on oauth-lib v2.1", "severity": "low", "mitigation": "Pinned version"}
+      ],
+      "confidence": "high",
+      "citations": [{"claim": "migration script included", "source": "diff: auth/migrate.py added"}]
+    }
+  ],
+  "recipient_context": "engineering leadership, non-technical stakeholders",
+  "week": "2026-04-05 to 2026-04-11"
+}

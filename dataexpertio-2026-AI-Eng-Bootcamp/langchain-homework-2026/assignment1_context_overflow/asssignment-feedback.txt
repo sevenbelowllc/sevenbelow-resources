@@ -1,0 +1,35 @@
+Feedback
+
+Overall: Excellent work. You correctly diagnosed the root cause, implemented a principled, minimal-output tool, added multiple safeguards, and demonstrated clear before/after token and cost improvements. Your session-aware layer and prompt design nicely reduce redundant tool calls while keeping responses consistent and terse.
+
+Rubric scoring
+
+Diagnosis (25/25)
+
+You clearly identified that the tool was dumping the entire dataset into the model context, explained why this is wrong (filtering belongs in Python, not the LLM), quantified the token/cost impact, and described the data flow from tool → LLM context. Spot on.
+Tool Fix (35/35)
+
+The tool now takes structured parameters, filters server-side by order_id or email, and returns only the minimal, whitelisted fields. The output is concise and consistently structured. The additional session cache is a smart optimization and doesn’t compromise safety.
+Safeguards (25/25)
+
+You implemented at least two from the rubric: pagination and a hard size cap (with explicit error) to prevent oversized outputs from entering the LLM context. The field whitelist and trimming chat history to the last two turns further reduce token growth risk. Strong safeguards.
+Write-up Quality (15/15)
+
+The write-up is clear, detailed, and includes a thorough quantitative before/after comparison with concrete numbers (records, fields, approximate chars/tokens, costs, calls). The token-usage.txt corroborates the claims. Great job.
+What went especially well
+
+Caching and prompt alignment: The session-aware cache plus explicit system instructions yields the intended behavior: first query returns the full bundle; subsequent related queries return “As previously provided…” without extra tool/LLM calls.
+Output format discipline: Single-order lines and consistent formatting make it easy to parse and verify.
+Safety by default: Field whitelisting, pagination, and size caps make it hard to regress into context bloat.
+Minor suggestions
+
+Token budgeting vs char cap: You’ve implemented a character-size cap and pagination, which is good. If you want to go further, consider a token-based budget (pre-injection token count) and summarization for large outputs instead of returning an error string.
+Minimal fields for list views: For email lookups returning multiple orders, “customer_email” may be redundant per line (the user knows which email they searched). You could drop that field from list contexts to shave a few more characters.
+Demonstrate pagination in logs: Your runtime log shows the single-order case. Adding a log snippet for an email with >5 orders would demonstrate has_more and the narrowing prompt in action.
+“Do not modify” section: Make sure the database size remains aligned with instructor expectations. It doesn’t affect your solution quality here, but instructors sometimes verify against a fixed dataset size.
+Verification notes from your run
+
+The first query returns a full bundle, then follow-ups correctly reply with “As previously provided...” pulled from the session cache.
+Only the email query invokes the AgentExecutor, which is consistent with your write-up. Token usage matches the claimed reductions.
+No missing info needed from you; your submission is complete. If the instructor needs anything else: the baseline (broken) tool code or a log showcasing multi-order email pagination would be useful for additional verification.
+

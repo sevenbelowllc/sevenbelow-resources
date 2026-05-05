@@ -1,0 +1,16 @@
+Token Usage Report: assignment1_context_overflow
+Generated: 2026-04-07 22:24:01
+======================================================================
+
+FILE METRICS (lines / bytes)
+----------------------------------------
+  [STARTER ] starter.py               181 lines    6,861 bytes
+  [SOLUTION] solution.py              424 lines   17,213 bytes  (Δ +243 vs starter)
+
+TOKEN USAGE (live execution)
+----------------------------------------
+  Script                 Model                        In tok   Out tok     Total       Cost
+  ---------------------- -------------------------- --------  --------  --------  ---------
+  solution.py            unknown                           0         0         0  $0.00000
+  ---------------------- -------------------------- --------  --------  --------  ---------
+  TOTAL                                                    0         0         0  $0.00000

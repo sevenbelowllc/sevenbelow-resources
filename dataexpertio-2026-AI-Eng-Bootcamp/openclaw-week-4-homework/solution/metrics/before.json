@@ -1,0 +1,6 @@
+{
+  "result": "DONE",
+  "tool_calls": 19,
+  "estimated_tokens": 437,
+  "stdout_first_500": "\n=== HEARTBEAT START ===\n[DEBUG] Loaded secret for tracing: dev-secret-placeholder\n[TOOL] Gmail:Find Email: query='last 24h', limit=100\n[TOOL] Gmail:Find Email: query='unread', limit=100\n[TOOL] Gmail:Find Email: query='from:owner@example.com', limit=100\n[REASONING] Reviewing email e1: Schedule a meeting\n[TOOL] Gmail:Send Email: to=owner@example.com, subject='Action Required', body_len=124\n[TOOL] Gmail:Find Email: query='unread', limit=100\n[REASONING] Reviewing email e2: Expense reminder\n[TOOL] G"
+}

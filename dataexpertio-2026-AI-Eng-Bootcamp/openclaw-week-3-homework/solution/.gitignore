@@ -1,0 +1,23 @@
+# Secrets
+.env
+.env.*
+!.env.example
+infra/.env
+
+# Langfuse runtime volumes (if ever placed inside this tree)
+infra/volumes/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# OS
+.DS_Store
+
+# Evidence intermediates — rebuilt by run_evidence.sh.
+# Commit final 28-run artifacts explicitly with `git add -f`.
+evidence/metrics.json
+evidence/metrics.json.lines
+evidence/traces/**/*.jsonl

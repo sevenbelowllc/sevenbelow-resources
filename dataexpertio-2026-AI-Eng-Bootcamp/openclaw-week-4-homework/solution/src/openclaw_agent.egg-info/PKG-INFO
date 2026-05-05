@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: openclaw-agent
+Version: 0.1.0
+Summary: OpenClaw Week 4 — hardened Chief-of-Staff agent
+Requires-Python: >=3.10
+Requires-Dist: langchain>=1.0
+Requires-Dist: langchain-anthropic>=0.3
+Requires-Dist: langsmith>=0.2
+Requires-Dist: pydantic<3,>=2.9
+Requires-Dist: python-dotenv>=1.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
+Requires-Dist: pytest-mock>=3.12; extra == "dev"

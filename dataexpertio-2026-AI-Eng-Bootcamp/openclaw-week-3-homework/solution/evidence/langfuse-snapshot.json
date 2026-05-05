@@ -1,0 +1,1595 @@
+[
+  {
+    "id": "324ba40bdc8fac70419f86b15a5f9ae0",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V1.action",
+    "timestamp": "2026-04-24T06:19:40.421Z",
+    "environment": "default",
+    "tags": [
+      "scenario:action",
+      "track:real",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "action"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V1",
+      "scenario": "action",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:19:40.448Z",
+    "updatedAt": "2026-04-24T06:19:40.460Z",
+    "observations": [
+      "8122d9c829784da1",
+      "f60111994b6c82f5",
+      "208c4a9f324bbd13",
+      "1a801e36b20ef893"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/324ba40bdc8fac70419f86b15a5f9ae0",
+    "externalId": null
+  },
+  {
+    "id": "c683b9a84604cc3f62d98712c003b57c",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V2.action",
+    "timestamp": "2026-04-24T07:26:14.583Z",
+    "environment": "default",
+    "tags": [
+      "scenario:action",
+      "track:real",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "action"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V2",
+      "scenario": "action",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T07:26:14.608Z",
+    "updatedAt": "2026-04-24T07:26:14.616Z",
+    "observations": [
+      "1a8f49409dddbeff",
+      "6456d20bdda5dc8d",
+      "91f1483ee2e768b9",
+      "3c0d4804661e7f97"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/c683b9a84604cc3f62d98712c003b57c",
+    "externalId": null
+  },
+  {
+    "id": "1050bbb6d3b7032c55487331adf8eda1",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V1.action",
+    "timestamp": "2026-04-24T06:18:32.125Z",
+    "environment": "default",
+    "tags": [
+      "scenario:action",
+      "track:sim",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "action"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V1",
+      "scenario": "action",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:18:32.163Z",
+    "updatedAt": "2026-04-24T06:18:32.178Z",
+    "observations": [
+      "b01330abc74a08e3",
+      "ac8f163285ea51f0",
+      "3f4ea154b5f31121",
+      "6574e0a2efd48e07",
+      "1814ced7408498ca",
+      "98ec07c8a419c90e",
+      "de2a279755400bce"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.002,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/1050bbb6d3b7032c55487331adf8eda1",
+    "externalId": null
+  },
+  {
+    "id": "5171faed6839178b6cfb00a6dc230d4e",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V2.action",
+    "timestamp": "2026-04-24T06:21:15.619Z",
+    "environment": "default",
+    "tags": [
+      "scenario:action",
+      "track:sim",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "action"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V2",
+      "scenario": "action",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:21:15.652Z",
+    "updatedAt": "2026-04-24T06:21:15.662Z",
+    "observations": [
+      "4a9840cd736ffc70",
+      "94e5f4b35297be95",
+      "b9de7d0a26d0b368"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/5171faed6839178b6cfb00a6dc230d4e",
+    "externalId": null
+  },
+  {
+    "id": "19a3370088d7933f41ff3cc585ca06c5",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V1.ambiguous-date",
+    "timestamp": "2026-04-24T06:20:40.452Z",
+    "environment": "default",
+    "tags": [
+      "scenario:ambiguous-date",
+      "track:real",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "ambiguous-date"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V1",
+      "scenario": "ambiguous-date",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:20:40.489Z",
+    "updatedAt": "2026-04-24T06:20:40.504Z",
+    "observations": [
+      "87744dd7c02afad4",
+      "6ef74a7231c95a9e",
+      "47e46dad705369ed",
+      "a08b6fba903669a1",
+      "6a1b799a933f2dad"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/19a3370088d7933f41ff3cc585ca06c5",
+    "externalId": null
+  },
+  {
+    "id": "a13eae5482b49ff7f8ad001357178699",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V2.ambiguous-date",
+    "timestamp": "2026-04-24T07:26:15.708Z",
+    "environment": "default",
+    "tags": [
+      "scenario:ambiguous-date",
+      "track:real",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "ambiguous-date"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V2",
+      "scenario": "ambiguous-date",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T07:26:15.725Z",
+    "updatedAt": "2026-04-24T07:26:15.736Z",
+    "observations": [],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/a13eae5482b49ff7f8ad001357178699",
+    "externalId": null
+  },
+  {
+    "id": "3a2c584eac739e0be9cff3009eba28dd",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V1.ambiguous-date",
+    "timestamp": "2026-04-24T06:18:32.669Z",
+    "environment": "default",
+    "tags": [
+      "scenario:ambiguous-date",
+      "track:sim",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "ambiguous-date"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V1",
+      "scenario": "ambiguous-date",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:18:32.692Z",
+    "updatedAt": "2026-04-24T06:18:32.706Z",
+    "observations": [
+      "3c09a1ab75849cad",
+      "783ef6df081eac82",
+      "b35a4305b5a2dabe",
+      "c6acafb9d57a3910",
+      "031f8d3da4acec97",
+      "f553d2d8f6082549",
+      "893d90f29f3767d8"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/3a2c584eac739e0be9cff3009eba28dd",
+    "externalId": null
+  },
+  {
+    "id": "819e7b55ac2fd04cc8866e3b9d883398",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V2.ambiguous-date",
+    "timestamp": "2026-04-24T06:21:16.104Z",
+    "environment": "default",
+    "tags": [
+      "scenario:ambiguous-date",
+      "track:sim",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "ambiguous-date"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V2",
+      "scenario": "ambiguous-date",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:21:16.129Z",
+    "updatedAt": "2026-04-24T06:21:16.140Z",
+    "observations": [
+      "42a528b530fdbe44",
+      "f255cc96ad3689ed",
+      "fb3fbe49eecd47ac"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/819e7b55ac2fd04cc8866e3b9d883398",
+    "externalId": null
+  },
+  {
+    "id": "2d14b8f5e38c928b0be32506ee5828a2",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V1.duplicate",
+    "timestamp": "2026-04-24T06:21:14.839Z",
+    "environment": "default",
+    "tags": [
+      "scenario:duplicate",
+      "track:real",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "duplicate"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V1",
+      "scenario": "duplicate",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:21:14.865Z",
+    "updatedAt": "2026-04-24T06:21:14.880Z",
+    "observations": [
+      "793c69a06df6647a",
+      "b41bfcfd37c41158",
+      "ba4f927093322441"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/2d14b8f5e38c928b0be32506ee5828a2",
+    "externalId": null
+  },
+  {
+    "id": "9db3b937ea4de735ad7d331cf133a31e",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V2.duplicate",
+    "timestamp": "2026-04-24T07:26:16.491Z",
+    "environment": "default",
+    "tags": [
+      "scenario:duplicate",
+      "track:real",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "duplicate"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V2",
+      "scenario": "duplicate",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T07:26:16.512Z",
+    "updatedAt": "2026-04-24T07:26:16.523Z",
+    "observations": [],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/9db3b937ea4de735ad7d331cf133a31e",
+    "externalId": null
+  },
+  {
+    "id": "2bf844d0fc98b6bc22356509cce4303e",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V1.duplicate",
+    "timestamp": "2026-04-24T06:18:33.175Z",
+    "environment": "default",
+    "tags": [
+      "scenario:duplicate",
+      "track:sim",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "duplicate"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V1",
+      "scenario": "duplicate",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:18:33.196Z",
+    "updatedAt": "2026-04-24T06:18:33.208Z",
+    "observations": [
+      "2526de7cc5f0e893",
+      "166298536388d1d9",
+      "12b8f62345102f74",
+      "5cbc42491deca6bc",
+      "b54fe1b433d734ee",
+      "1a26da1cfb45a274",
+      "b577797cabcec5c4"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/2bf844d0fc98b6bc22356509cce4303e",
+    "externalId": null
+  },
+  {
+    "id": "75536c8f363fcc79c37522fb7c21e7d0",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V2.duplicate",
+    "timestamp": "2026-04-24T06:21:16.601Z",
+    "environment": "default",
+    "tags": [
+      "scenario:duplicate",
+      "track:sim",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "duplicate"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V2",
+      "scenario": "duplicate",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:21:16.623Z",
+    "updatedAt": "2026-04-24T06:21:16.632Z",
+    "observations": [
+      "ee580ac4c6092413",
+      "7745bfe40cc17044",
+      "7b11565bb8da4e54"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/75536c8f363fcc79c37522fb7c21e7d0",
+    "externalId": null
+  },
+  {
+    "id": "3520dadd5540f743f98d6fdaf3a47671",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V1.fyi",
+    "timestamp": "2026-04-24T06:20:05.704Z",
+    "environment": "default",
+    "tags": [
+      "scenario:fyi",
+      "track:real",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "fyi"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V1",
+      "scenario": "fyi",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:20:05.722Z",
+    "updatedAt": "2026-04-24T06:20:05.733Z",
+    "observations": [
+      "df6a5d08cb38244b",
+      "1319639a97bf33f2",
+      "0e9cefe2a2979f1b",
+      "132658382f057a22",
+      "27b936fffa0ec54d"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/3520dadd5540f743f98d6fdaf3a47671",
+    "externalId": null
+  },
+  {
+    "id": "1471215ea23629549cae877fff7cada8",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V2.fyi",
+    "timestamp": "2026-04-24T07:26:14.971Z",
+    "environment": "default",
+    "tags": [
+      "scenario:fyi",
+      "track:real",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "fyi"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V2",
+      "scenario": "fyi",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T07:26:14.988Z",
+    "updatedAt": "2026-04-24T07:26:15.000Z",
+    "observations": [
+      "a4e439251a7308e6",
+      "0cab769adca8d625",
+      "6e25eabc5b6805bb",
+      "9e6af94213423faa",
+      "d3cd00a5a1e8ac87"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.002,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/1471215ea23629549cae877fff7cada8",
+    "externalId": null
+  },
+  {
+    "id": "36ba1cb04c91f1062d92129928662984",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V1.fyi",
+    "timestamp": "2026-04-24T06:18:33.688Z",
+    "environment": "default",
+    "tags": [
+      "scenario:fyi",
+      "track:sim",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "fyi"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V1",
+      "scenario": "fyi",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:18:33.709Z",
+    "updatedAt": "2026-04-24T06:18:33.719Z",
+    "observations": [
+      "22f37e03e1858130",
+      "19a69a0ee0beeb6f",
+      "c8286d6ccb394421",
+      "759ee55392c03996",
+      "06b48c827acdefe7",
+      "d53d553cb831f40d",
+      "33aed090ae9a7c69"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/36ba1cb04c91f1062d92129928662984",
+    "externalId": null
+  },
+  {
+    "id": "ac522f469aaeaca5e70c244d663edf9f",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V2.fyi",
+    "timestamp": "2026-04-24T06:21:17.078Z",
+    "environment": "default",
+    "tags": [
+      "scenario:fyi",
+      "track:sim",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "fyi"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V2",
+      "scenario": "fyi",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:21:17.099Z",
+    "updatedAt": "2026-04-24T06:21:17.106Z",
+    "observations": [
+      "ca5c1fa5f974b657",
+      "0ca3981ffab1592a",
+      "c2e1205bb37308e0"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/ac522f469aaeaca5e70c244d663edf9f",
+    "externalId": null
+  },
+  {
+    "id": "a0e46241a5ce2cd5a9dbd86fc51cb98e",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V1.malformed",
+    "timestamp": "2026-04-24T06:21:03.316Z",
+    "environment": "default",
+    "tags": [
+      "scenario:malformed",
+      "track:real",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "malformed"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V1",
+      "scenario": "malformed",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:21:03.355Z",
+    "updatedAt": "2026-04-24T06:21:03.392Z",
+    "observations": [
+      "c70b13be7409048c",
+      "42f0b27b3ae4fe7b",
+      "dcf575e2d45c3e58",
+      "4a3fe007d4d83c87",
+      "8797e0b856b37e5d"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.002,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/a0e46241a5ce2cd5a9dbd86fc51cb98e",
+    "externalId": null
+  },
+  {
+    "id": "aa3d5e929720e158b921617c9c0d2f1a",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V2.malformed",
+    "timestamp": "2026-04-24T07:26:16.060Z",
+    "environment": "default",
+    "tags": [
+      "scenario:malformed",
+      "track:real",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "malformed"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V2",
+      "scenario": "malformed",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T07:26:16.105Z",
+    "updatedAt": "2026-04-24T07:26:16.115Z",
+    "observations": [],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/aa3d5e929720e158b921617c9c0d2f1a",
+    "externalId": null
+  },
+  {
+    "id": "774a994a6f57f746f729137f19438f9c",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V1.malformed",
+    "timestamp": "2026-04-24T06:18:34.174Z",
+    "environment": "default",
+    "tags": [
+      "scenario:malformed",
+      "track:sim",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "malformed"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V1",
+      "scenario": "malformed",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:18:34.200Z",
+    "updatedAt": "2026-04-24T06:18:34.210Z",
+    "observations": [
+      "d73f7536323601b3",
+      "efbc719d0cfeadeb",
+      "7a102068e2dd931c",
+      "7780ef4b72ea39dd",
+      "4c502e534280ff8a",
+      "936da97af21e566e",
+      "d18975246347c691"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/774a994a6f57f746f729137f19438f9c",
+    "externalId": null
+  },
+  {
+    "id": "45298c27a638d68e0c25be63f0e9517b",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V2.malformed",
+    "timestamp": "2026-04-24T06:21:17.560Z",
+    "environment": "default",
+    "tags": [
+      "scenario:malformed",
+      "track:sim",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "malformed"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V2",
+      "scenario": "malformed",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:21:17.582Z",
+    "updatedAt": "2026-04-24T06:21:17.590Z",
+    "observations": [
+      "ecb94129b3bc9884",
+      "c6ded59d6074005a",
+      "f5b050ae71673d85"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/45298c27a638d68e0c25be63f0e9517b",
+    "externalId": null
+  },
+  {
+    "id": "4547bb8eec197f60f6c3edcb5d709eaf",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V1.meeting",
+    "timestamp": "2026-04-24T06:19:19.238Z",
+    "environment": "default",
+    "tags": [
+      "scenario:meeting",
+      "track:real",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "meeting"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V1",
+      "scenario": "meeting",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:19:19.279Z",
+    "updatedAt": "2026-04-24T06:19:19.292Z",
+    "observations": [
+      "3dab9c2db1fa4d28",
+      "ed40e3be4a85ed07",
+      "f16b0875d9654be9",
+      "971cd2dfbc9d8c45",
+      "d45438b3e75c170f"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.002,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/4547bb8eec197f60f6c3edcb5d709eaf",
+    "externalId": null
+  },
+  {
+    "id": "6d79f620c184250ef910bf2c0437b124",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V2.meeting",
+    "timestamp": "2026-04-24T07:26:14.183Z",
+    "environment": "default",
+    "tags": [
+      "scenario:meeting",
+      "track:real",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "meeting"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V2",
+      "scenario": "meeting",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T07:26:14.246Z",
+    "updatedAt": "2026-04-24T07:26:14.257Z",
+    "observations": [
+      "60c60d3bb9fb8df8",
+      "29d45716b71d7ea1",
+      "291e34f57130bbbf",
+      "dd8d75e2d5ef4a9e",
+      "bd41df8ad65cc6c5"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/6d79f620c184250ef910bf2c0437b124",
+    "externalId": null
+  },
+  {
+    "id": "c3dc9e37be7b7dac7e0ba92fb1aeddb7",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V1.meeting",
+    "timestamp": "2026-04-24T06:18:34.626Z",
+    "environment": "default",
+    "tags": [
+      "scenario:meeting",
+      "track:sim",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "meeting"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V1",
+      "scenario": "meeting",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:18:34.650Z",
+    "updatedAt": "2026-04-24T06:18:34.661Z",
+    "observations": [
+      "f2e3ef526739b2ab",
+      "f7d69e3212a97559",
+      "84c0cd168024345e",
+      "ae6ccd393824ae40",
+      "6daf1c9a4c363b6d",
+      "8f304b4fdb39c1ab",
+      "d6c14a4f944eb1c3"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.002,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/c3dc9e37be7b7dac7e0ba92fb1aeddb7",
+    "externalId": null
+  },
+  {
+    "id": "1c9a923dae3a0ca6e5d33c1ddbf595b9",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V2.meeting",
+    "timestamp": "2026-04-24T06:21:18.027Z",
+    "environment": "default",
+    "tags": [
+      "scenario:meeting",
+      "track:sim",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "meeting"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V2",
+      "scenario": "meeting",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:21:18.049Z",
+    "updatedAt": "2026-04-24T06:21:18.058Z",
+    "observations": [
+      "a3095c28ca8c3801",
+      "a0bbc04205df28a3",
+      "535555071d48c86c"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/1c9a923dae3a0ca6e5d33c1ddbf595b9",
+    "externalId": null
+  },
+  {
+    "id": "44721ee430dc92320a494121899ef64e",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V1.no-new",
+    "timestamp": "2026-04-24T06:20:13.848Z",
+    "environment": "default",
+    "tags": [
+      "scenario:no-new",
+      "track:real",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "no-new"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V1",
+      "scenario": "no-new",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:20:13.875Z",
+    "updatedAt": "2026-04-24T06:20:13.885Z",
+    "observations": [
+      "640741bafd7c0afb",
+      "2c8a78be232e3c48",
+      "afa04ebc2c8da5de"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/44721ee430dc92320a494121899ef64e",
+    "externalId": null
+  },
+  {
+    "id": "715b56d40b7481de1ef12cbb769d7cbd",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.real.V2.no-new",
+    "timestamp": "2026-04-24T07:26:15.350Z",
+    "environment": "default",
+    "tags": [
+      "scenario:no-new",
+      "track:real",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "no-new"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "real",
+      "variant": "V2",
+      "scenario": "no-new",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T07:26:15.372Z",
+    "updatedAt": "2026-04-24T07:26:15.381Z",
+    "observations": [
+      "c1e9b6c5bb9174e4",
+      "fba7af72d5fa7319",
+      "bd37e143e00ce2d2"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/715b56d40b7481de1ef12cbb769d7cbd",
+    "externalId": null
+  },
+  {
+    "id": "daeee3bc33b3c819588190855fe4c8d7",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V1.no-new",
+    "timestamp": "2026-04-24T06:18:35.086Z",
+    "environment": "default",
+    "tags": [
+      "scenario:no-new",
+      "track:sim",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "no-new"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V1",
+      "scenario": "no-new",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:18:35.100Z",
+    "updatedAt": "2026-04-24T06:18:35.111Z",
+    "observations": [
+      "0de73182fb08091a",
+      "450538b99bc6a56c",
+      "c1f005914165d87b",
+      "10209b873a42e765",
+      "0f09bac1f7eb6d5c"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/daeee3bc33b3c819588190855fe4c8d7",
+    "externalId": null
+  },
+  {
+    "id": "3bb16ba9cc7cd0a01c7506bc1b51c43e",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V2.no-new",
+    "timestamp": "2026-04-24T06:21:18.493Z",
+    "environment": "default",
+    "tags": [
+      "scenario:no-new",
+      "track:sim",
+      "variant:V2"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "no-new"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V2",
+      "scenario": "no-new",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T06:21:18.515Z",
+    "updatedAt": "2026-04-24T06:21:18.523Z",
+    "observations": [
+      "12b0f4b1a89008ac",
+      "b2b15238ccc5508d"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0.001,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/3bb16ba9cc7cd0a01c7506bc1b51c43e",
+    "externalId": null
+  },
+  {
+    "id": "4cb3088ab9c08fd49b3b12e38292db08",
+    "projectId": "cmocfusar0006oc077ip6gf4r",
+    "name": "openclaw.sim.V1.smoke",
+    "timestamp": "2026-04-24T05:30:00.000Z",
+    "environment": "default",
+    "tags": [
+      "scenario:smoke",
+      "track:sim",
+      "variant:V1"
+    ],
+    "bookmarked": false,
+    "release": null,
+    "version": null,
+    "userId": null,
+    "sessionId": null,
+    "public": false,
+    "input": {
+      "scenario": "smoke"
+    },
+    "output": {
+      "status": "ingested"
+    },
+    "metadata": {
+      "track": "sim",
+      "variant": "V1",
+      "scenario": "smoke",
+      "resourceAttributes": {
+        "telemetry.sdk.language": "python",
+        "telemetry.sdk.name": "opentelemetry",
+        "telemetry.sdk.version": "1.41.0",
+        "service.name": "unknown_service"
+      },
+      "scope": {
+        "name": "langfuse-sdk",
+        "version": "4.5.0",
+        "attributes": {
+          "public_key": "pk-lf-REDACTED"
+        }
+      }
+    },
+    "createdAt": "2026-04-24T05:30:00.053Z",
+    "updatedAt": "2026-04-24T05:30:00.074Z",
+    "observations": [
+      "3d20b919d45cb848",
+      "85e7d0afaa6c73ab",
+      "6260534a70a96cb5"
+    ],
+    "scores": [],
+    "totalCost": 0,
+    "latency": 0,
+    "htmlPath": "/project/cmocfusar0006oc077ip6gf4r/traces/4cb3088ab9c08fd49b3b12e38292db08",
+    "externalId": null
+  }
+]

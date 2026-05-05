@@ -1,0 +1,436 @@
+[
+  {
+    "sha": "a1b2c3d",
+    "message": "feat: add TOTP secret generation to user model",
+    "author": "priya_sharma",
+    "date": "2026-04-05",
+    "files": ["auth/models.py", "migrations/0024_user_totp_fields.py"]
+  },
+  {
+    "sha": "e4f5a6b",
+    "message": "feat: implement TOTP verification endpoint",
+    "author": "priya_sharma",
+    "date": "2026-04-05",
+    "files": ["auth/totp.py", "auth/views.py", "auth/urls.py"]
+  },
+  {
+    "sha": "c7d8e9f",
+    "message": "fix: restore invalidate_old_sessions call after password reset",
+    "author": "sarah_chen",
+    "date": "2026-04-05",
+    "files": ["auth/reset.py"]
+  },
+  {
+    "sha": "0a1b2c3",
+    "message": "chore: add detect-secrets pre-commit hook",
+    "author": "security_reviewer",
+    "date": "2026-04-05",
+    "files": [".pre-commit-config.yaml", ".secrets.baseline"]
+  },
+  {
+    "sha": "d4e5f6a",
+    "message": "docs: add CONTRIBUTING.md with conventional commits guide",
+    "author": "marcus_obi",
+    "date": "2026-04-05",
+    "files": ["CONTRIBUTING.md"]
+  },
+  {
+    "sha": "b7c8d9e",
+    "message": "fix: add ProcessedStripeEvent model for idempotency checks",
+    "author": "marcus_obi",
+    "date": "2026-04-05",
+    "files": ["payments/models.py", "migrations/0023_processed_stripe_event.py"]
+  },
+  {
+    "sha": "0f1a2b3",
+    "message": "refactor: extract PaymentService class from views",
+    "author": "marcus_obi",
+    "date": "2026-04-06",
+    "files": ["payments/service.py", "payments/views.py"]
+  },
+  {
+    "sha": "c4d5e6f",
+    "message": "chore: upgrade Django from 4.1.7 to 4.2.11",
+    "author": "jordan_lee",
+    "date": "2026-04-06",
+    "files": ["requirements.txt", "config/urls.py", "config/settings.py"]
+  },
+  {
+    "sha": "a7b8c9d",
+    "message": "fix: update legacy url() calls to re_path() for Django 4.2 compat",
+    "author": "jordan_lee",
+    "date": "2026-04-06",
+    "files": ["legacy/urls.py", "config/urls.py"]
+  },
+  {
+    "sha": "e0f1a2b",
+    "message": "docs: update PR template with testing checklist",
+    "author": "marcus_obi",
+    "date": "2026-04-06",
+    "files": [".github/PULL_REQUEST_TEMPLATE.md"]
+  },
+  {
+    "sha": "3c4d5e6",
+    "message": "fix: check idempotency key before processing Stripe webhook",
+    "author": "marcus_obi",
+    "date": "2026-04-06",
+    "files": ["payments/webhooks.py"]
+  },
+  {
+    "sha": "f7a8b9c",
+    "message": "test: add unit tests for payment idempotency key check",
+    "author": "marcus_obi",
+    "date": "2026-04-06",
+    "files": ["tests/unit/test_stripe_webhooks.py"]
+  },
+  {
+    "sha": "0d1e2f3",
+    "message": "chore: upgrade Pillow to 10.3.0 and cryptography to 42.0.8",
+    "author": "alex_torres",
+    "date": "2026-04-07",
+    "files": ["requirements.txt"]
+  },
+  {
+    "sha": "a4b5c6d",
+    "message": "fix: use Image.Resampling.LANCZOS for Pillow 10 compat",
+    "author": "alex_torres",
+    "date": "2026-04-07",
+    "files": ["users/avatar.py"]
+  },
+  {
+    "sha": "e7f8a9b",
+    "message": "refactor: consolidate auth middleware into AuthPipeline",
+    "author": "sarah_chen",
+    "date": "2026-04-07",
+    "files": ["auth/pipeline.py", "auth/middleware.py"]
+  },
+  {
+    "sha": "0c1d2e3",
+    "message": "refactor: add JWT, Session, APIKey strategies to auth pipeline",
+    "author": "sarah_chen",
+    "date": "2026-04-07",
+    "files": ["auth/strategies/jwt.py", "auth/strategies/session.py", "auth/strategies/api_key.py"]
+  },
+  {
+    "sha": "f4a5b6c",
+    "message": "docs: add GitHub issue templates for bugs and feature requests",
+    "author": "marcus_obi",
+    "date": "2026-04-07",
+    "files": [".github/ISSUE_TEMPLATE/bug_report.md", ".github/ISSUE_TEMPLATE/feature_request.md"]
+  },
+  {
+    "sha": "7d8e9f0",
+    "message": "fix: remove hardcoded SendGrid API key from notifications config",
+    "author": "security_reviewer",
+    "date": "2026-04-07",
+    "files": ["notifications/config.py"]
+  },
+  {
+    "sha": "a1b2c3e",
+    "message": "docs: update openapi.yaml with v2 analytics endpoint params",
+    "author": "jordan_lee",
+    "date": "2026-04-07",
+    "files": ["docs/api/openapi.yaml"]
+  },
+  {
+    "sha": "d4e5f6b",
+    "message": "feat: add QR code generation for TOTP 2FA setup",
+    "author": "priya_sharma",
+    "date": "2026-04-08",
+    "files": ["auth/totp.py", "auth/views.py"]
+  },
+  {
+    "sha": "b7c8d9f",
+    "message": "feat: add TwoFactorSetup component to frontend",
+    "author": "priya_sharma",
+    "date": "2026-04-08",
+    "files": ["frontend/src/components/TwoFactorSetup.tsx", "frontend/src/api/auth.ts"]
+  },
+  {
+    "sha": "0a1b2c4",
+    "message": "fix: update email validator to accept RFC 5321 tagged addresses",
+    "author": "alex_torres",
+    "date": "2026-04-08",
+    "files": ["notifications/validator.py"]
+  },
+  {
+    "sha": "d4e5f6c",
+    "message": "test: add tests for tagged email address validation",
+    "author": "alex_torres",
+    "date": "2026-04-08",
+    "files": ["tests/unit/test_email_validator.py"]
+  },
+  {
+    "sha": "b7c8d0a",
+    "message": "chore: add Flower for Celery task monitoring",
+    "author": "marcus_obi",
+    "date": "2026-04-08",
+    "files": ["requirements.txt", "docker-compose.yml"]
+  },
+  {
+    "sha": "e1f2a3b",
+    "message": "docs: update openapi.yaml with v2 payments intent metadata field",
+    "author": "jordan_lee",
+    "date": "2026-04-08",
+    "files": ["docs/api/openapi.yaml"]
+  },
+  {
+    "sha": "4c5d6e7",
+    "message": "fix: fix remove debug fallback in user lookup that leaked alice profile data",
+    "author": "dev_bob",
+    "date": "2026-04-08",
+    "files": ["auth/user_lookup.py"]
+  },
+  {
+    "sha": "f8a9b0c",
+    "message": "refactor: extract notification delivery into strategy pattern",
+    "author": "alex_torres",
+    "date": "2026-04-09",
+    "files": ["notifications/strategies.py", "notifications/sender.py"]
+  },
+  {
+    "sha": "1d2e3f4",
+    "message": "feat: add CSV exporter with streaming response support",
+    "author": "marcus_obi",
+    "date": "2026-04-09",
+    "files": ["analytics/exporters.py"]
+  },
+  {
+    "sha": "a5b6c7d",
+    "message": "feat: add analytics export endpoint with rate limiting",
+    "author": "marcus_obi",
+    "date": "2026-04-09",
+    "files": ["analytics/export_views.py", "analytics/urls.py", "api/rate_limiter.py"]
+  },
+  {
+    "sha": "e8f9a0b",
+    "message": "feat: add ExportButton component to analytics dashboard",
+    "author": "marcus_obi",
+    "date": "2026-04-09",
+    "files": ["frontend/src/components/ExportButton.tsx", "frontend/src/api/analytics.ts"]
+  },
+  {
+    "sha": "1c2d3e4",
+    "message": "fix: correct DashboardChart timezone conversion using date-fns-tz",
+    "author": "priya_sharma",
+    "date": "2026-04-09",
+    "files": ["frontend/src/components/DashboardChart.tsx"]
+  },
+  {
+    "sha": "f5a6b7c",
+    "message": "refactor: convert analytics aggregator to async with timezone-aware datetimes",
+    "author": "priya_sharma",
+    "date": "2026-04-09",
+    "files": ["analytics/aggregator.py", "analytics/views.py"]
+  },
+  {
+    "sha": "8d9e0f1",
+    "message": "docs: add webhook API documentation to openapi.yaml",
+    "author": "alex_torres",
+    "date": "2026-04-09",
+    "files": ["docs/api/openapi.yaml"]
+  },
+  {
+    "sha": "a2b3c4d",
+    "message": "chore: pin celery to 5.3.6 in requirements.txt",
+    "author": "sarah_chen",
+    "date": "2026-04-09",
+    "files": ["requirements.txt"]
+  },
+  {
+    "sha": "e5f6a7b",
+    "message": "feat: implement WebSocket NotificationConsumer with Django Channels",
+    "author": "sarah_chen",
+    "date": "2026-04-10",
+    "files": ["notifications/consumers.py", "notifications/routing.py", "config/asgi.py"]
+  },
+  {
+    "sha": "8c9d0e1",
+    "message": "feat: add useNotifications hook with WebSocket and polling fallback",
+    "author": "sarah_chen",
+    "date": "2026-04-10",
+    "files": ["frontend/src/hooks/useNotifications.ts"]
+  },
+  {
+    "sha": "f2a3b4c",
+    "message": "feat: update NotificationBell to use WebSocket hook",
+    "author": "sarah_chen",
+    "date": "2026-04-10",
+    "files": ["frontend/src/components/NotificationBell.tsx"]
+  },
+  {
+    "sha": "5d6e7f8",
+    "message": "fix: increase Celery soft_time_limit for email tasks to 90s",
+    "author": "marcus_obi",
+    "date": "2026-04-10",
+    "files": ["config/celery.py", "notifications/tasks.py"]
+  },
+  {
+    "sha": "a9b0c1d",
+    "message": "fix: flush stale Redis rate limit keys on server startup",
+    "author": "sarah_chen",
+    "date": "2026-04-10",
+    "files": ["api/management/commands/flush_stale_rate_limits.py"]
+  },
+  {
+    "sha": "e2f3a4b",
+    "message": "fix: call flush_stale_rate_limits in Gunicorn post_fork hook",
+    "author": "sarah_chen",
+    "date": "2026-04-10",
+    "files": ["config/gunicorn.conf.py"]
+  },
+  {
+    "sha": "5c6d7e8",
+    "message": "feat: add CSS custom properties for dark mode theme tokens",
+    "author": "jordan_lee",
+    "date": "2026-04-10",
+    "files": ["frontend/src/styles/tokens.css", "frontend/src/styles/themes/dark.css"]
+  },
+  {
+    "sha": "f9a0b1c",
+    "message": "feat: add ThemeContext and useTheme hook",
+    "author": "jordan_lee",
+    "date": "2026-04-10",
+    "files": ["frontend/src/contexts/ThemeContext.tsx", "frontend/src/hooks/useTheme.ts"]
+  },
+  {
+    "sha": "2d3e4f5",
+    "message": "feat: add ThemeToggle button component to user settings",
+    "author": "jordan_lee",
+    "date": "2026-04-10",
+    "files": ["frontend/src/components/ThemeToggle.tsx", "frontend/src/components/UserSettings.tsx"]
+  },
+  {
+    "sha": "a6b7c8d",
+    "message": "docs: update README with dark mode and 2FA feature notes",
+    "author": "jordan_lee",
+    "date": "2026-04-10",
+    "files": ["README.md"]
+  },
+  {
+    "sha": "e9f0a1b",
+    "message": "fix: remove debug user_lookup fallback that exposed alice profile data",
+    "author": "dev_bob",
+    "date": "2026-04-10",
+    "files": ["auth/user_lookup.py", "tests/unit/test_user_lookup.py"]
+  },
+  {
+    "sha": "2c3d4e5",
+    "message": "docs: update v2 user delete endpoint response schema in openapi.yaml",
+    "author": "jordan_lee",
+    "date": "2026-04-10",
+    "files": ["docs/api/openapi.yaml"]
+  },
+  {
+    "sha": "f6a7b8c",
+    "message": "feat: implement webhook registration and delivery for payment events",
+    "author": "alex_torres",
+    "date": "2026-04-11",
+    "files": ["payments/webhooks_outbound.py", "payments/models.py", "payments/views.py"]
+  },
+  {
+    "sha": "9d0e1f2",
+    "message": "feat: add webhook HMAC-SHA256 signing and signature header",
+    "author": "alex_torres",
+    "date": "2026-04-11",
+    "files": ["payments/webhooks_outbound.py", "payments/serializers.py"]
+  },
+  {
+    "sha": "a3b4c5d",
+    "message": "feat: add user onboarding checklist model and progress tracker",
+    "author": "priya_sharma",
+    "date": "2026-04-11",
+    "files": ["users/onboarding.py", "users/models.py", "migrations/0026_user_onboarding.py"]
+  },
+  {
+    "sha": "e6f7a8b",
+    "message": "feat: add OnboardingChecklist component to dashboard",
+    "author": "priya_sharma",
+    "date": "2026-04-11",
+    "files": ["frontend/src/components/OnboardingChecklist.tsx", "frontend/src/components/Dashboard.tsx"]
+  },
+  {
+    "sha": "9c0d1e2",
+    "message": "fix: add hard time limit to Celery email tasks to prevent zombie workers",
+    "author": "marcus_obi",
+    "date": "2026-04-11",
+    "files": ["config/celery.py"]
+  },
+  {
+    "sha": "f3a4b5c",
+    "message": "chore: update docker-compose with Daphne ASGI server for WebSocket support",
+    "author": "sarah_chen",
+    "date": "2026-04-11",
+    "files": ["docker-compose.yml", "config/asgi.py"]
+  },
+  {
+    "sha": "6d7e8f9",
+    "message": "docs: add Django Channels setup notes to deployment guide",
+    "author": "sarah_chen",
+    "date": "2026-04-11",
+    "files": ["docs/deployment.md"]
+  },
+  {
+    "sha": "a0b1c2d",
+    "message": "fix: add missing webhook migration for Webhook model",
+    "author": "alex_torres",
+    "date": "2026-04-11",
+    "files": ["migrations/0025_webhook_model.py"]
+  },
+  {
+    "sha": "e3f4a5b",
+    "message": "docs: document recovery code generation in auth API docs",
+    "author": "priya_sharma",
+    "date": "2026-04-11",
+    "files": ["docs/api/openapi.yaml"]
+  },
+  {
+    "sha": "6c7d8e9",
+    "message": "chore: regenerate API reference HTML from updated openapi.yaml",
+    "author": "jordan_lee",
+    "date": "2026-04-11",
+    "files": ["docs/api/index.html", "docs/api/reference.html"]
+  },
+  {
+    "sha": "f0a1b2c",
+    "message": "fix: handle WebSocket disconnect gracefully in NotificationConsumer",
+    "author": "sarah_chen",
+    "date": "2026-04-11",
+    "files": ["notifications/consumers.py"]
+  },
+  {
+    "sha": "3d4e5f6",
+    "message": "refactor: simplify dark mode token structure for consistency",
+    "author": "jordan_lee",
+    "date": "2026-04-11",
+    "files": ["frontend/src/styles/tokens.css", "frontend/src/styles/themes/dark.css"]
+  },
+  {
+    "sha": "a7b8c9e",
+    "message": "chore: add channels and daphne to requirements.txt",
+    "author": "sarah_chen",
+    "date": "2026-04-11",
+    "files": ["requirements.txt"]
+  },
+  {
+    "sha": "d0e1f2a",
+    "message": "fix: ensure Dashboard applies data-theme attribute on mount",
+    "author": "jordan_lee",
+    "date": "2026-04-11",
+    "files": ["frontend/src/components/Dashboard.tsx", "frontend/src/contexts/ThemeContext.tsx"]
+  },
+  {
+    "sha": "b3c4d5e",
+    "message": "docs: add troubleshooting section for WebSocket connection failures",
+    "author": "dev_bob",
+    "date": "2026-04-11",
+    "files": ["docs/troubleshooting.md"]
+  },
+  {
+    "sha": "6f7a8b9",
+    "message": "chore: update .gitignore to exclude .secrets.baseline from diffs",
+    "author": "security_reviewer",
+    "date": "2026-04-11",
+    "files": [".gitignore"]
+  }
+]
