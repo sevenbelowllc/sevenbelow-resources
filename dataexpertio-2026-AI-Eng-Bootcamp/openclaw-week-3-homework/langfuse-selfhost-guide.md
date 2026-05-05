@@ -258,13 +258,13 @@ Verify: `docker exec "${PROJECT}-minio-1" mc ls local` should show `langfuse/`.
 2. Click **Sign up** (there are no users yet — the first account becomes the admin).
 3. Create an **Organization** (any name).
 4. Create a **Project** inside it.
-5. **Settings → API Keys → Create new API keys**. You get a public key (`pk-lf-…`) and a secret key (`sk-lf-…`). Copy both now; the secret is only shown once.
+5. **Settings → API Keys → Create new API keys**. You get a public key (`[langfuse-pk-removed]`) and a secret key (`[langfuse-sk-removed]`). Copy both now; the secret is only shown once.
 6. Paste them into your `.env`:
 
 ```dotenv
 LANGFUSE_HOST=http://localhost:3333
-LANGFUSE_PUBLIC_KEY=pk-lf-...
-LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_PUBLIC_KEY=[langfuse-pk-removed]
+LANGFUSE_SECRET_KEY=[langfuse-sk-removed]
 ```
 
 ### 🔥 Gotcha 2 — the env var is `LANGFUSE_HOST`, not `LANGFUSE_BASE_URL`

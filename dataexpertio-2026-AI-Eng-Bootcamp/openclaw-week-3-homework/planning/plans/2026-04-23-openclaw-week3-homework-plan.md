@@ -365,8 +365,8 @@ Open `http://localhost:3333` in a browser, sign up as the first user (that accou
 ```bash
 cd openclaw-week-3-homework/solution/infra
 # Replace with real values from the UI:
-sed -i '' 's|^LANGFUSE_PUBLIC_KEY=.*|LANGFUSE_PUBLIC_KEY=pk-lf-REPLACE_ME|' .env
-sed -i '' 's|^LANGFUSE_SECRET_KEY=.*|LANGFUSE_SECRET_KEY=sk-lf-REPLACE_ME|' .env
+sed -i '' 's|^LANGFUSE_PUBLIC_KEY=.*|LANGFUSE_PUBLIC_KEY=[langfuse-pk-removed]|' .env
+sed -i '' 's|^LANGFUSE_SECRET_KEY=.*|LANGFUSE_SECRET_KEY=[langfuse-sk-removed]|' .env
 ```
 
 - [ ] **Step 5: Smoke-test the API**

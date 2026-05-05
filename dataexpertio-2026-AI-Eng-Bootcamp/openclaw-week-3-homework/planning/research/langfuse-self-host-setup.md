@@ -81,14 +81,14 @@ Re-run `docker compose up -d` after the edit.
 2. Sign up (first account becomes the instance owner — no email verification on self-host by default).
 3. Create an **Organization** → inside it create a **Project**. Name it `openclaw-week3`.
 4. In the project, go to **Settings → API Keys** → create a new key pair. You'll get:
-   - `LANGFUSE_PUBLIC_KEY` (starts with `pk-lf-...`)
-   - `LANGFUSE_SECRET_KEY` (starts with `sk-lf-...`)
+   - `LANGFUSE_PUBLIC_KEY` (starts with `[langfuse-pk-removed]`)
+   - `LANGFUSE_SECRET_KEY` (starts with `[langfuse-sk-removed]`)
 5. Save these in the homework's `solution/infra/.env` (gitignored) — the Python ingester will read them:
 
    ```bash
    LANGFUSE_HOST=http://localhost:3333
-   LANGFUSE_PUBLIC_KEY=pk-lf-...
-   LANGFUSE_SECRET_KEY=sk-lf-...
+   LANGFUSE_PUBLIC_KEY=[langfuse-pk-removed]
+   LANGFUSE_SECRET_KEY=[langfuse-sk-removed]
    ```
 
 6. Smoke-test with the Python SDK:
