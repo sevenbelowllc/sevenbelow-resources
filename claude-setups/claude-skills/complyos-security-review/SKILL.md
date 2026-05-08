@@ -27,7 +27,7 @@ Perform a deep, evidence-backed security review of a multi-tenant SaaS complianc
 ## Required inputs (refuse if missing)
 
 1. Repository roots in scope (absolute paths or workspace map).
-2. Authoritative spec / authority index pointer (e.g., `docs/specs/INDEX.md` if present).
+2. Authoritative spec / authority index pointer (e.g., `library-reading-room/specs/INDEX.md` if present).
 3. Auth provider name (e.g., Clerk, Auth0, Cognito, custom).
 4. API style (REST, GraphQL, both, gRPC).
 5. Database engine + tenancy model (RLS-enforced shared DB, schema-per-tenant, db-per-tenant).
@@ -198,7 +198,7 @@ Invalid evidence (reject):
 
 ## Required output artifacts
 
-The review writes to `security-review/` (relative to the user's chosen output root, default `docs/security-review/`):
+The review writes to `security-review/` (relative to the user's chosen output root, default `library-reading-room/research/security-review-<YYYY-MM-DD>/`):
 
 ```
 security-review/
@@ -267,18 +267,29 @@ Halt and report (do not paper over):
 ## Example invocation
 
 ```
-/complyos-security-review
-  scope: <agent-service> <api-service> <ui-service>
-  authority: docs/specs/INDEX.md
+/compliance-os-security-review
+  scope: agent-core compliance-core compliance-ui
+  authority: library-reading-room/specs/INDEX.md
   auth_provider: Clerk
   api: REST + GraphQL (Apollo Server 5)
   db: Postgres 16 + RLS
   cloud: GCP + Terraform
   ai_rag: yes (LangGraph + LangChain + pgvector)
-  envs_in_scope: local, integration (nonprod backend at <api-domain>)
+  envs_in_scope: local, integration (nonprod backend at int-api.sevenbelow.com)
   runtime_authz: NONE (static-only)
-  output: docs/security-review/
+  output: library-reading-room/research/security-review-2026-05-08/
 ```
+
+## Helper scripts
+
+The skill ships four optional helpers under `scripts/`. Use them to enforce operating rules deterministically:
+
+- `scripts/init-review.sh <out>` — bootstrap the 14-15 artifact stubs from templates (idempotent).
+- `scripts/validate-finding.py <file>` — lint finding blocks against `templates/finding-template.md`. Exits 1 on missing fields, invalid severity/status, missing line-number evidence, or banned phrases.
+- `scripts/aggregate-counts.py <file-or-dir>` — emit Markdown tables for `14-findings-register.md` aggregate counts.
+- `scripts/scrub-check.sh <review-dir>` — detect JWT/API-key/private-key patterns before publishing the report.
+
+These are pre-completion gates. The skill's review is not complete until `validate-finding.py` exits 0 against `14-findings-register.md` and `scrub-check.sh` exits 0 against the review dir.
 
 ## Validation rubric (skill self-check before completion)
 

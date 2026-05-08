@@ -225,9 +225,106 @@ complyos-security-review/
 │   ├── threat-model-template.md
 │   ├── remediation-plan-template.md
 │   └── test-plan-template.md
+├── scripts/
+│   ├── init-review.sh                      # bootstrap security-review/ output skeleton from templates
+│   ├── validate-finding.py                 # lint a finding block against the template; exit 1 on violations
+│   ├── aggregate-counts.py                 # produce severity/status/category tables from findings
+│   └── scrub-check.sh                      # detect publish-blocking secret patterns before sharing
 └── examples/
     ├── usage-prompt.md
     └── review-command.md
+```
+
+## Helper scripts
+
+The skill ships four small helpers under `scripts/`. All are optional; the
+skill works as pure Markdown without them. Use them to enforce the operating
+rules with deterministic checks instead of relying on Claude's self-discipline.
+
+### `init-review.sh` — bootstrap output skeleton
+
+```bash
+# Create the 14 standard artifact stubs (Phase 0..7 + 9..15)
+./scripts/init-review.sh path/to/output
+
+# Include AI/RAG phase (08-ai-rag-security-review.md)
+./scripts/init-review.sh path/to/output --with-ai
+
+# Force overwrite (default is skip-existing)
+./scripts/init-review.sh path/to/output --force
+```
+
+Idempotent: re-running skips files that already exist. Each stub pre-populates
+header, scope-reminder, method, PASS, findings, and scope-gap sections so
+Claude has a consistent shape to fill in.
+
+### `validate-finding.py` — lint findings against the template
+
+```bash
+# Lint a register file
+python3 scripts/validate-finding.py path/to/14-findings-register.md
+
+# Or pipe in
+cat finding.md | python3 scripts/validate-finding.py --stdin
+```
+
+Checks every `### FINDING-` block for:
+
+- All 19 required fields present (Severity, Status, Category, OWASP Mapping, CWE, Affected Component, Tenant/Data Boundary, Evidence, observation, vulnerability, attack path, business + tenant impact, reproduction, smallest fix, tests, regression risk, owner, priority).
+- Severity ∈ {Critical, High, Medium, Low, Info}.
+- Status ∈ {CONFIRMED, LIKELY, STATIC-ONLY, NEEDS-RUNTIME-TEST, BLOCKED}.
+- At least one Evidence subfield (File / Function/Class / Route/API / Config / Test).
+- File evidence includes a line number.
+- No invalid evidence phrases ("looks okay", "appears secure", "framework should handle this", etc.).
+
+Tolerates both `- Severity: High` and `- **Severity:** High` markdown styles.
+Exits 1 on any violation; suitable for CI gates.
+
+### `aggregate-counts.py` — generate counts tables
+
+```bash
+# Single file
+python3 scripts/aggregate-counts.py path/to/14-findings-register.md
+
+# Whole review dir
+python3 scripts/aggregate-counts.py path/to/security-review/
+```
+
+Emits Markdown tables ready to paste into the Aggregate Counts and Findings
+By Category sections of `14-findings-register.md`. Counts severity, status,
+and category per the controlled vocabularies.
+
+### `scrub-check.sh` — pre-publish secret scan
+
+```bash
+# Default secret patterns (JWTs, API keys, private keys)
+./scripts/scrub-check.sh path/to/security-review/
+
+# With operator-supplied patterns (one regex per line)
+./scripts/scrub-check.sh path/to/security-review/ --config my-patterns.txt
+```
+
+Scans for:
+
+- JWT-shaped strings (`eyJ...` three-segment).
+- Common API-key prefixes (`sk_live_`, `sk_test_`, `pk_*`, `ghp_`, `ghs_`, `gho_`, `AKIA`, `ASIA`, `AIza`, `xox[abps]-`).
+- Private-key headers (`-----BEGIN ... PRIVATE KEY-----`).
+- Private-key file references (`*.pem`, `*.key`, `*.p12`, `*.pfx`, `*.jks`).
+- `PLACEHOLDER_*` literals are explicitly allowed (workspace-friendly convention).
+
+Customer names, internal hostnames, and Jira project keys are operator-curated
+via `--config <patterns-file>`. Exit 0 = clean, 1 = matches found.
+
+### CI integration
+
+Suggested CI gate to keep findings discipline mechanical:
+
+```yaml
+- name: Validate findings format
+  run: python3 scripts/validate-finding.py docs/security-review/14-findings-register.md
+
+- name: Scrub secrets before publish
+  run: ./scripts/scrub-check.sh docs/security-review/ --config .scrub-patterns
 ```
 
 ## Compatibility
