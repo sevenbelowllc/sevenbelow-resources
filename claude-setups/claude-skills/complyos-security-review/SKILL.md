@@ -282,14 +282,14 @@ Halt and report (do not paper over):
 
 ## Helper scripts
 
-The skill ships four optional helpers under `scripts/`. Use them to enforce operating rules deterministically:
+The skill ships four optional Python 3.10+ helpers under `scripts/` (stdlib only — no `pip install`). Use them to enforce operating rules deterministically:
 
-- `scripts/init-review.sh <out>` — bootstrap the 14-15 artifact stubs from templates (idempotent).
-- `scripts/validate-finding.py <file>` — lint finding blocks against `templates/finding-template.md`. Exits 1 on missing fields, invalid severity/status, missing line-number evidence, or banned phrases.
-- `scripts/aggregate-counts.py <file-or-dir>` — emit Markdown tables for `14-findings-register.md` aggregate counts.
-- `scripts/scrub-check.sh <review-dir>` — detect JWT/API-key/private-key patterns before publishing the report.
+- `python3 scripts/init-review.py <out>` — bootstrap the 14-15 artifact stubs from templates. Idempotent. `--force` to overwrite. `--with-ai` to include Phase 8.
+- `python3 scripts/validate-finding.py <file>` — lint finding blocks against `templates/finding-template.md`. Exits 1 on missing fields, invalid severity/status, missing line-number evidence, or banned phrases.
+- `python3 scripts/aggregate-counts.py <file-or-dir>` — emit Markdown tables for `14-findings-register.md` aggregate counts.
+- `python3 scripts/scrub-check.py <review-dir>` — detect JWT/API-key/private-key patterns before publishing the report. `--config <patterns-file>` for operator-curated patterns.
 
-These are pre-completion gates. The skill's review is not complete until `validate-finding.py` exits 0 against `14-findings-register.md` and `scrub-check.sh` exits 0 against the review dir.
+These are pre-completion gates. The skill's review is not complete until `validate-finding.py` exits 0 against `14-findings-register.md` and `scrub-check.py` exits 0 against the review dir.
 
 ## Validation rubric (skill self-check before completion)
 

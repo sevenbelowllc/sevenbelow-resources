@@ -225,11 +225,11 @@ complyos-security-review/
 │   ├── threat-model-template.md
 │   ├── remediation-plan-template.md
 │   └── test-plan-template.md
-├── scripts/
-│   ├── init-review.sh                      # bootstrap security-review/ output skeleton from templates
+├── scripts/                                # all Python 3.10+, no third-party deps
+│   ├── init-review.py                      # bootstrap security-review/ output skeleton from templates
 │   ├── validate-finding.py                 # lint a finding block against the template; exit 1 on violations
 │   ├── aggregate-counts.py                 # produce severity/status/category tables from findings
-│   └── scrub-check.sh                      # detect publish-blocking secret patterns before sharing
+│   └── scrub-check.py                      # detect publish-blocking secret patterns before sharing
 └── examples/
     ├── usage-prompt.md
     └── review-command.md
@@ -241,17 +241,17 @@ The skill ships four small helpers under `scripts/`. All are optional; the
 skill works as pure Markdown without them. Use them to enforce the operating
 rules with deterministic checks instead of relying on Claude's self-discipline.
 
-### `init-review.sh` — bootstrap output skeleton
+### `init-review.py` — bootstrap output skeleton
 
 ```bash
 # Create the 14 standard artifact stubs (Phase 0..7 + 9..15)
-./scripts/init-review.sh path/to/output
+python3 scripts/init-review.py path/to/output
 
 # Include AI/RAG phase (08-ai-rag-security-review.md)
-./scripts/init-review.sh path/to/output --with-ai
+python3 scripts/init-review.py path/to/output --with-ai
 
 # Force overwrite (default is skip-existing)
-./scripts/init-review.sh path/to/output --force
+python3 scripts/init-review.py path/to/output --force
 ```
 
 Idempotent: re-running skips files that already exist. Each stub pre-populates
@@ -294,14 +294,14 @@ Emits Markdown tables ready to paste into the Aggregate Counts and Findings
 By Category sections of `14-findings-register.md`. Counts severity, status,
 and category per the controlled vocabularies.
 
-### `scrub-check.sh` — pre-publish secret scan
+### `scrub-check.py` — pre-publish secret scan
 
 ```bash
 # Default secret patterns (JWTs, API keys, private keys)
-./scripts/scrub-check.sh path/to/security-review/
+python3 scripts/scrub-check.py path/to/security-review/
 
-# With operator-supplied patterns (one regex per line)
-./scripts/scrub-check.sh path/to/security-review/ --config my-patterns.txt
+# With operator-supplied patterns (one regex per line, # for comments)
+python3 scripts/scrub-check.py path/to/security-review/ --config my-patterns.txt
 ```
 
 Scans for:
@@ -324,8 +324,10 @@ Suggested CI gate to keep findings discipline mechanical:
   run: python3 scripts/validate-finding.py docs/security-review/14-findings-register.md
 
 - name: Scrub secrets before publish
-  run: ./scripts/scrub-check.sh docs/security-review/ --config .scrub-patterns
+  run: python3 scripts/scrub-check.py docs/security-review/ --config .scrub-patterns
 ```
+
+All scripts target Python 3.10+ stdlib only (no `pip install` required).
 
 ## Compatibility
 
