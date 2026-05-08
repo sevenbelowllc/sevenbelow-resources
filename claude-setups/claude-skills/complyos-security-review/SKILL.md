@@ -27,7 +27,7 @@ Perform a deep, evidence-backed security review of a multi-tenant SaaS complianc
 ## Required inputs (refuse if missing)
 
 1. Repository roots in scope (absolute paths or workspace map).
-2. Authoritative spec / authority index pointer (e.g., `library-reading-room/specs/INDEX.md` if present).
+2. Authoritative spec / authority index pointer (e.g., `docs/specs/INDEX.md` if present).
 3. Auth provider name (e.g., Clerk, Auth0, Cognito, custom).
 4. API style (REST, GraphQL, both, gRPC).
 5. Database engine + tenancy model (RLS-enforced shared DB, schema-per-tenant, db-per-tenant).
@@ -198,7 +198,7 @@ Invalid evidence (reject):
 
 ## Required output artifacts
 
-The review writes to `security-review/` (relative to the user's chosen output root, default `library-reading-room/research/security-review-<YYYY-MM-DD>/`):
+The review writes to `security-review/` (relative to the user's chosen output root, default `docs/security-review/`):
 
 ```
 security-review/
@@ -268,16 +268,16 @@ Halt and report (do not paper over):
 
 ```
 /compliance-os-security-review
-  scope: agent-core compliance-core compliance-ui
-  authority: library-reading-room/specs/INDEX.md
+  scope: <agent-service> <api-service> <ui-service>
+  authority: docs/specs/INDEX.md
   auth_provider: Clerk
   api: REST + GraphQL (Apollo Server 5)
   db: Postgres 16 + RLS
   cloud: GCP + Terraform
   ai_rag: yes (LangGraph + LangChain + pgvector)
-  envs_in_scope: local, integration (nonprod backend at int-api.sevenbelow.com)
+  envs_in_scope: local, integration (nonprod backend at <api-domain>)
   runtime_authz: NONE (static-only)
-  output: library-reading-room/research/security-review-2026-05-08/
+  output: docs/security-review/
 ```
 
 ## Helper scripts
