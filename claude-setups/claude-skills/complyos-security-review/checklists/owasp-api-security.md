@@ -88,3 +88,18 @@ For each item: produce CONFIRMED PASS with evidence, a finding, or SCOPE-GAP. Fo
 - [ ] Outbound TLS verification ON; no `verify=False`.
 - [ ] Timeout + retry budgets per third-party API.
 - [ ] Cert pinning where supply-chain risk warrants.
+
+## Required regression tests
+
+Each API category above must be backed by a test from `templates/test-plan-template.md`. Map:
+
+- API1 BOLA — category 5
+- API2 Broken Authentication — categories 4 (tenant ID spoof), 17 (webhook sig)
+- API3 Property-Level Authz — mass-assignment unit tests; field-level authz tests
+- API4 Resource Consumption — categories 13, 14
+- API5 Function-Level Authz — category 6
+- API6 Sensitive Business Flows — category 7 (elevation expiry), bulk-action throttle test
+- API7 SSRF — URL-validator unit tests (RFC1918 / metadata / DNS rebind)
+- API8 Security Misconfig — CI gate for introspection/dev-portal in deployed env
+- API9 Inventory Management — CI gate that asserts no stub endpoints mounted in prod build
+- API10 Unsafe Consumption — response-schema validation unit tests; webhook trust-boundary tests

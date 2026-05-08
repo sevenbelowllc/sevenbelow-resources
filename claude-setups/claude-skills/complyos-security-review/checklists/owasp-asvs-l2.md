@@ -101,3 +101,20 @@ Level 2 = applications handling sensitive data (compliance/audit/customer eviden
 - [ ] V14.3.1 Security headers set per A05.
 - [ ] V14.4.1 No debug interfaces in deployed envs.
 - [ ] V14.5.1 Cross-env separation (no prod secrets in nonprod, no nonprod data in prod).
+
+## Required regression tests
+
+Each ASVS section above must be backed by tests from `templates/test-plan-template.md`. Map per section:
+
+- V2 Authentication → category 4 (tenant ID spoofing), 7 (elevation expiry)
+- V3 Session Management → logout/session-invalidation E2E
+- V4 Access Control → categories 5 (BOLA), 6 (BFLA)
+- V5 Validation/Sanitization → input-schema unit tests; SQL parameterization tests; SSRF guard tests
+- V6 Stored Cryptography → KMS key-rotation runbook test
+- V7 Error Handling/Logging → category 20 (secrets in logs), 21 (security event audit)
+- V8 Data Protection → right-to-erasure E2E
+- V9 Communications → TLS deploy probe; HSTS header check
+- V11 Business Logic → category 13 (rate/resource abuse), 6 (BFLA on sensitive flows)
+- V12 Files/Resources → categories 9-11 (evidence upload/download/signed URL)
+- V13 API → category 13 (rate), 14 (GraphQL depth/complexity)
+- V14 Configuration → CI gate for headers + introspection-disabled in deployed envs

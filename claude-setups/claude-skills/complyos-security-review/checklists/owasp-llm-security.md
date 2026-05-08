@@ -87,3 +87,24 @@ Run this checklist if Phase 0 declared AI/RAG/agent code paths in scope. Skip ot
 - [ ] Sensitive-action HITL: publish, delete-evidence, role-change, billing-change require human approval token before agent can execute.
 - [ ] Agent-to-agent calls (if any) propagate tenant context AND restrict to declared sub-agent allowlist.
 - [ ] Agent observability does not log raw user PII to LangFuse / Sentry (regex + Presidio scrub at trace boundary).
+
+## Required regression tests
+
+Each LLM category above must be backed by a test from `templates/test-plan-template.md`. Map:
+
+- LLM01 Prompt Injection — category 15 (direct, indirect, multimodal)
+- LLM02 Sensitive Info Disclosure — category 20 (secrets in logs/traces)
+- LLM03 Supply Chain — CI dep scan; model-version pin assertion
+- LLM04 Data/Model Poisoning — category 16 (RAG tenant scoping); ingest-provenance test
+- LLM05 Improper Output Handling — output-sanitizer unit tests; tool-call schema validation
+- LLM06 Excessive Agency — tool-allowlist test; HITL gate test
+- LLM07 System Prompt Leakage — prompt-extraction probe test
+- LLM08 Vector/Embedding Weaknesses — category 16 (RAG tenant scoping); kNN cap test
+- LLM09 Misinformation — HITL gate before AI output becomes audit evidence
+- LLM10 Unbounded Consumption — cost-cap rejection test (402/429 at entry); recursion-limit test; idempotency-key test
+
+Agentic-specific tests:
+
+- Cross-tenant agent thread resume rejection
+- Tool authorization per-tool schema rejection
+- Caller-to-tenant binding regression test

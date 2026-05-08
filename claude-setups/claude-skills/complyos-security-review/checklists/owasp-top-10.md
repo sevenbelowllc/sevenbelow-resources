@@ -92,3 +92,18 @@ For each item: produce a CONFIRMED PASS with evidence, a finding (any status), o
 - [ ] Image/document fetch by URL (if any) gated by allowlist or proxy.
 - [ ] Internal service URLs (agent base URL, db proxy, internal admin) validated `*.svc.cluster.local` or RFC1918 only.
 - [ ] LLM tool calls that fetch URLs gated by allowlist + outbound proxy with private-IP block.
+
+## Required regression tests
+
+Each checklist item above must be backed by a regression test from `templates/test-plan-template.md`. Map per OWASP category:
+
+- A01 Broken Access Control → categories 5 (BOLA), 6 (BFLA), 12 (workflow forgery)
+- A02 Cryptographic Failures → review-time only (verify TLS/HSTS via deploy probe)
+- A03 Injection → SQL parameterization unit tests; XSS sanitization tests
+- A04 Insecure Design → category 13 (rate/resource abuse), 11 (signed URL expiry)
+- A05 Security Misconfiguration → CI gate verifying introspection/dev-portal disabled in deployed envs
+- A06 Vulnerable Components → CI dep scan + image scan must fail on CRITICAL
+- A07 AuthN Failures → categories 4 (tenant ID spoofing), 7-8 (support elevation expiry/audit)
+- A08 Software Integrity → category 17 (webhook signature validation)
+- A09 Logging Failures → category 21 (security event audit logging)
+- A10 SSRF → URL-validator unit tests covering RFC1918 / loopback / metadata IPs / DNS rebind
