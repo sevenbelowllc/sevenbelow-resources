@@ -41,7 +41,19 @@ Includes the original mentor shoutout (Charles Dove / CC Strategic AI, James Gol
 
 ### 🎓 [`dataexpertio-2026-AI-Eng-Bootcamp/`](./dataexpertio-2026-AI-Eng-Bootcamp/)
 
+<p align="center">
+  <a href="https://www.dataexpert.io/">
+    <img src="assets/dataexpert-logo.png" alt="DataExpert.io" width="200">
+  </a>
+</p>
+
 **DataExpert.io 2026 AI Engineering Bootcamp homework solutions.** Each subdir has its own README; original problem statements and solutions are not reproduced.
+
+#### About DataExpert.io & Zach Wilson
+
+[**DataExpert.io**](https://www.dataexpert.io/) is the data and AI engineering education platform founded by **[Zach Wilson](https://www.linkedin.com/in/eczachly/)** — ex-Airbnb / Netflix / Facebook data engineer and one of the most-followed voices in data on LinkedIn / YouTube. The platform runs structured, cohort-based bootcamps (Data Engineering, AI Engineering, Analytics) that pair production-grade curriculum with weekly homework graded against real systems. The 2026 AI Engineering track covered Claude Code agent design, LangChain / LangGraph, OpenClaw agent debugging and token-efficiency, observability with Langfuse, and LangSmith evaluation — every solution in this directory shipped against that curriculum.
+
+> Big thanks to **Zach Wilson** and the DataExpert.io team for building one of the few bootcamps where you actually have to ship working systems to pass. Highly recommended — [dataexpert.io](https://www.dataexpert.io/).
 
 Highlights:
 - **[`claude-code-homework/`](./dataexpertio-2026-AI-Eng-Bootcamp/claude-code-homework/)** — *Release Radar*: GitHub-activity tool (issue triage, PR summaries, commit digests, stakeholder emails) built as Claude Code skills + CLI batch mode, with a guardrail chain (PII redaction, citation, schema validation, uncertainty/insufficient-context handling)
